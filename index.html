@@ -25,7 +25,6 @@
             --radius-sm: 12px;
             --radius-lg: 24px;
             --radius-xl: 32px;
-            --shadow-card: 0 8px 40px rgba(0,0,0,0.5);
             --font-display: 'Cinzel', Georgia, serif;
             --font-body: 'Inter', system-ui, sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
@@ -45,6 +44,15 @@
             justify-content: center;
             overflow-x: hidden;
             position: relative;
+            transition: background 0.5s;
+        }
+        #particlesCanvas {
+            position: fixed;
+            top:0; left:0;
+            width:100%; height:100%;
+            z-index:0;
+            pointer-events: none;
+            opacity:0.7;
         }
         #game-container {
             width: 100%;
@@ -59,15 +67,40 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(0,240,168,0.05);
             z-index: 2;
             position: relative;
+            transition: background 0.5s, border-color 0.5s, box-shadow 0.5s;
         }
-        #particlesCanvas {
-            position: fixed;
-            top:0; left:0;
-            width:100%; height:100%;
-            z-index:0;
-            pointer-events: none;
-            opacity:0.7;
+        /* Temas visuais para cada tela */
+        #game-container.bunker-theme {
+            background: rgba(30, 25, 15, 0.85);
+            border-color: rgba(255, 179, 71, 0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 50px rgba(255, 179, 71, 0.15);
         }
+        #game-container.expedition-theme {
+            background: rgba(35, 25, 20, 0.85);
+            border-color: rgba(139, 90, 43, 0.4);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 40px rgba(139, 90, 43, 0.2);
+        }
+        #game-container.combat-theme {
+            background: rgba(40, 10, 10, 0.9);
+            border-color: rgba(255, 61, 92, 0.6);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 80px rgba(255, 61, 92, 0.4);
+            animation: panicPulse 0.8s infinite alternate;
+        }
+        @keyframes panicPulse {
+            from { box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 80px rgba(255, 61, 92, 0.4); }
+            to { box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 120px rgba(255, 61, 92, 0.7); background: rgba(50, 5, 5, 0.9); }
+        }
+        #game-container.inventory-theme {
+            background: rgba(10, 20, 30, 0.85);
+            border-color: rgba(0, 198, 255, 0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 50px rgba(0, 198, 255, 0.15);
+        }
+        #game-container.victory-theme {
+            background: rgba(10, 30, 20, 0.85);
+            border-color: rgba(0, 240, 168, 0.4);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 60px rgba(0, 240, 168, 0.25);
+        }
+
         .hidden { display:none !important; }
         h1,h2,h3 {
             font-family: var(--font-display);
@@ -183,12 +216,12 @@
             background:var(--surface);
             border:1px solid var(--border-subtle);
             border-radius:var(--radius-sm);
-            padding:10px;
+            padding:12px;
             text-align:center;
-            font-size:0.85rem;
+            font-size:0.9rem;
         }
-        .inv-item .item-name { font-weight:600; color:#fff; }
-        .inv-item .item-qty { color:var(--gold); }
+        .inv-item .item-name { font-weight:600; color:#fff; display:block; margin-bottom:4px; }
+        .inv-item .item-qty { color:var(--gold); font-size:1.2rem; font-weight:700; }
         input[type="text"] {
             background:var(--surface);
             border:1px solid var(--border-glow);
@@ -206,10 +239,29 @@
             border-color:var(--emerald);
             box-shadow:0 0 20px var(--emerald-glow);
         }
+        .btn-inventory {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            z-index: 5;
+        }
+        .btn-inventory:hover {
+            background: var(--surface-hover);
+            color: #fff;
+        }
         @media (max-width:600px) {
             #game-container { padding:24px 16px; margin:10px; }
             h1 { font-size:1.8rem; }
             .status-value { font-size:1.5rem; }
+            .btn-inventory { top: 10px; right: 10px; }
         }
     </style>
 </head>
@@ -227,6 +279,7 @@
 
         <!-- BUNKER -->
         <div id="screen-bunker" class="hidden">
+            <button class="btn-inventory" id="btnInvBunker">🎒 Inventário</button>
             <h2>🏠 Bunker dos Sobreviventes</h2>
             <div id="bunkerStatus"></div>
             <div class="progress-bar"><div class="progress-fill" id="vegetationFill"></div></div>
@@ -237,6 +290,7 @@
 
         <!-- EXPEDIÇÃO -->
         <div id="screen-expedition" class="hidden">
+            <button class="btn-inventory" id="btnInvExpedition">🎒 Inventário</button>
             <h2>🌫️ Superfície Tóxica</h2>
             <div class="status-bar">
                 <div class="status-item"><div class="status-label">❤️ Vida</div><div class="status-value hp" id="hpDisplay">100</div></div>
@@ -258,6 +312,13 @@
             </div>
             <p id="combatDesc" style="color:#b0aaa0;"></p>
             <div class="choices" id="combatChoices"></div>
+        </div>
+
+        <!-- INVENTÁRIO -->
+        <div id="screen-inventory" class="hidden">
+            <h2 style="color:#00c6ff;">🎒 Inventário do Ascensor</h2>
+            <div id="inventoryContent"></div>
+            <button class="choice-btn" id="btnBackFromInventory" style="width:100%;text-align:center;margin-top:20px;">Voltar</button>
         </div>
 
         <!-- VITÓRIA -->
@@ -321,14 +382,27 @@
         animateParticles();
 
         // ============ JOGO ============
+        const gameContainer = document.getElementById('game-container');
         const screens = {
             start: document.getElementById('screen-start'),
             bunker: document.getElementById('screen-bunker'),
             expedition: document.getElementById('screen-expedition'),
             combat: document.getElementById('screen-combat'),
+            inventory: document.getElementById('screen-inventory'),
             victory: document.getElementById('screen-victory')
         };
-        function showScreen(id) { Object.values(screens).forEach(s=>s.classList.add('hidden')); screens[id].classList.remove('hidden'); }
+
+        // Remove todas as classes de tema e adiciona a correta
+        function setTheme(theme) {
+            gameContainer.classList.remove('bunker-theme', 'expedition-theme', 'combat-theme', 'inventory-theme', 'victory-theme');
+            if (theme) gameContainer.classList.add(theme);
+        }
+
+        function showScreen(id, theme) {
+            Object.values(screens).forEach(s => s.classList.add('hidden'));
+            screens[id].classList.remove('hidden');
+            setTheme(theme || '');
+        }
 
         const state = {
             playerName: '',
@@ -343,7 +417,8 @@
             upgrades: { suit:0 },
             mutantWounded:false,
             mutantHp:0,
-            sensorActive:false
+            sensorActive:false,
+            previousScreen: null // para voltar do inventário
         };
 
         const vegFill = document.getElementById('vegetationFill');
@@ -397,7 +472,7 @@
             clearLog(); state.scrapThisRun=0; state.turn=1; state.mutantWounded=false; state.sensorActive=false;
             state.maxTurns = 10 + (state.upgrades.suit*2);
             if(state.hp<=0) state.hp=1; if(state.energy<=0) state.energy=10;
-            updateUI(); showScreen('expedition');
+            updateUI(); showScreen('expedition', 'expedition-theme');
             addLog('Você sai do bunker. O ar é irrespirável. Seu traje filtra oxigênio.','info');
             addLog('Turno 1/'+state.maxTurns+' — Escolha sua ação:','info');
             generateExpeditionChoices();
@@ -407,7 +482,6 @@
 
         function generateExpeditionChoices() {
             expeditionChoices.innerHTML='';
-            // Escolhe 3 aleatórias dentre as 5
             const shuffled = [...allActions].sort(()=>Math.random()-0.5);
             const chosen = shuffled.slice(0,3);
 
@@ -439,7 +513,6 @@
                 expeditionChoices.appendChild(btn);
             });
 
-            // Se turno >=7, opção extra de voltar
             if(state.turn>=7) {
                 const btnRet = document.createElement('button');
                 btnRet.className='choice-btn btn-special';
@@ -521,7 +594,7 @@
         function endTurn() {
             if(checkDeath()) return;
             state.turn++;
-            state.hunger += 5; // fome passiva por turno
+            state.hunger += 5;
             updateUI();
             if(state.turn>state.maxTurns) {
                 addLog('⏳ Oxigênio esgotado. Retorno forçado ao bunker.','danger');
@@ -534,7 +607,7 @@
         function startCombat() {
             state.mutantWounded=false;
             state.mutantHp = Math.floor(Math.random()*21)+30;
-            showScreen('combat');
+            showScreen('combat', 'combat-theme');
             combatHp.textContent=state.hp; mutantHp.textContent=state.mutantHp;
             combatDesc.textContent='Um mutante horrendo avança!';
             renderCombatChoices();
@@ -595,13 +668,13 @@
         }
 
         function endCombat(survived) {
-            showScreen('expedition'); updateUI();
+            showScreen('expedition', 'expedition-theme'); updateUI();
             if(!survived || state.hp<=0) { endExpedition(false); }
             else { addLog('Confronto encerrado.','info'); endTurn(); }
         }
 
         function endExpedition(voluntary) {
-            showScreen('bunker');
+            showScreen('bunker', 'bunker-theme');
             const earned = state.scrapThisRun; state.coins+=earned;
             state.vegetation = Math.min(100, state.vegetation+5);
             if(state.inventory.seeds>0) {
@@ -610,7 +683,7 @@
             updateUI();
             bunkerStatus.innerHTML = `<p>🔋 Vida: ${state.hp}/${state.maxHp} | ⚡ Energia: ${state.energy}/${state.maxEnergy} | 🍖 Fome: ${state.hunger}/${state.maxHunger} | 💰 Moedas: ${state.coins}</p><p>📦 Sucatas coletadas: ${earned} (convertidas em moedas)</p>`;
             renderBunkerShop();
-            if(state.vegetation>=100) showScreen('victory');
+            if(state.vegetation>=100) showScreen('victory', 'victory-theme');
         }
 
         function renderBunkerShop() {
@@ -651,7 +724,47 @@
             updateUI(); bunkerStatus.innerHTML = `<p>🔋 Vida: ${state.hp}/${state.maxHp} | ⚡ Energia: ${state.energy}/${state.maxEnergy} | 🍖 Fome: ${state.hunger}/${state.maxHunger} | 💰 Moedas: ${state.coins}</p>`;
             renderBunkerShop();
         }
-        function addLogBunker(msg) { bunkerStatus.innerHTML += `<br><span style="color:#00f0a8;">${msg}</span>`; }
+        function addLogBunker(msg) { bunkerStatus.innerHTML += `<br><span style="color:#ffb347;">${msg}</span>`; }
+
+        // ============ INVENTÁRIO ============
+        function openInventory(returnScreen) {
+            state.previousScreen = returnScreen;
+            const invContent = document.getElementById('inventoryContent');
+            invContent.innerHTML = `
+            <div class="status-bar">
+              <div class="status-item"><div class="status-label">❤️ Vida</div><div class="status-value hp">${state.hp}/${state.maxHp}</div></div>
+              <div class="status-item"><div class="status-label">⚡ Energia</div><div class="status-value ep">${state.energy}/${state.maxEnergy}</div></div>
+              <div class="status-item"><div class="status-label">🍖 Fome</div><div class="status-value hunger">${state.hunger}/${state.maxHunger}</div></div>
+            </div>
+            <p style="margin:10px 0;">💰 Moedas: <strong>${state.coins}</strong> | 📦 Sucata na expedição: <strong>${state.scrapThisRun}</strong></p>
+            <h3 style="margin-top:16px;">Itens Carregados</h3>
+            <div class="inventory-grid">
+              <div class="inv-item"><span class="item-name">🍞 Rações</span><span class="item-qty">${state.inventory.food}</span></div>
+              <div class="inv-item"><span class="item-name">💊 Kits Médicos</span><span class="item-qty">${state.inventory.medkit}</span></div>
+              <div class="inv-item"><span class="item-name">📡 Sensores</span><span class="item-qty">${state.inventory.sensor}</span></div>
+              <div class="inv-item"><span class="item-name">💣 Granadas</span><span class="item-qty">${state.inventory.grenade}</span></div>
+              <div class="inv-item"><span class="item-name">🌱 Sementes</span><span class="item-qty">${state.inventory.seeds}</span></div>
+            </div>
+            <p style="margin-top:12px;">🛡️ Nível do Traje: <strong>${state.upgrades.suit}</strong> (Turnos máx: ${10+state.upgrades.suit*2})</p>
+            <p>🌱 Vegetação do Bunker: <strong>${state.vegetation}%</strong></p>
+          `;
+            showScreen('inventory', 'inventory-theme');
+        }
+
+        // Botões de inventário
+        document.getElementById('btnInvBunker').addEventListener('click', ()=> openInventory('bunker'));
+        document.getElementById('btnInvExpedition').addEventListener('click', ()=> openInventory('expedition'));
+        document.getElementById('btnBackFromInventory').addEventListener('click', ()=>{
+            if (state.previousScreen === 'bunker') {
+                showScreen('bunker', 'bunker-theme');
+                updateUI();
+                bunkerStatus.innerHTML = `<p>🔋 Vida: ${state.hp}/${state.maxHp} | ⚡ Energia: ${state.energy}/${state.maxEnergy} | 🍖 Fome: ${state.hunger}/${state.maxHunger} | 💰 Moedas: ${state.coins}</p>`;
+                renderBunkerShop();
+            } else {
+                showScreen('expedition', 'expedition-theme');
+                updateUI();
+            }
+        });
 
         // Inicialização
         document.getElementById('btnStartGame').addEventListener('click',()=>{
@@ -660,7 +773,7 @@
             state.coins=20; state.vegetation=0;
             state.inventory={ food:3, medkit:1, sensor:0, grenade:0, seeds:0 };
             state.upgrades={ suit:0 };
-            updateUI(); showScreen('bunker');
+            updateUI(); showScreen('bunker', 'bunker-theme');
             bunkerStatus.innerHTML = `<p>Bem-vindo, <strong>${state.playerName}</strong>. Vegetação: 0%.</p><p>🔋 Vida: 100 | ⚡ Energia: 100 | 🍖 Fome: 0 | 💰 Moedas: 20</p>`;
             renderBunkerShop();
         });
