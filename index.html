@@ -4,26 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projeto O₂ - Entenda, Reflita, Respire</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #1a1a1a;
-            --bg-section1: #2c2416;
-            --bg-section2: #1f2a2f;
-            --bg-section3: #1a2f1f;
-            --bg-section4: #1e3b3b;
-            --text-light: #f0e6d3;
-            --text-muted: #b0a899;
-            --accent-red: #e05a3d;
-            --accent-green: #4caf7c;
-            --accent-blue: #4a90c4;
-            --accent-gold: #d4a853;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            --radius: 16px;
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --font-title: 'Georgia', 'Times New Roman', serif;
-            --font-body: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            --bg-void: #0a0a0f;
+            --emerald: #00f0a8;
+            --emerald-glow: #00f0a866;
+            --crimson: #ff3d5c;
+            --crimson-glow: #ff3d5c66;
+            --gold: #ffb347;
+            --gold-glow: #ffb34755;
+            --ocean: #00c6ff;
+            --ocean-glow: #00c6ff55;
+            --deep-green: #0d2818;
+            --surface: rgba(255, 255, 255, 0.03);
+            --surface-hover: rgba(255, 255, 255, 0.07);
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-glow: rgba(255, 255, 255, 0.2);
+            --text-primary: #f0ece4;
+            --text-secondary: #b0aaa0;
+            --radius-sm: 12px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --shadow-glow: 0 0 60px rgba(0, 240, 168, 0.15), 0 0 120px rgba(0, 240, 168, 0.05);
+            --shadow-card: 0 8px 40px rgba(0, 0, 0, 0.5);
+            --font-display: 'Cinzel', 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         * {
@@ -34,29 +43,61 @@
 
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 70px;
+            scroll-padding-top: 90px;
+            background: var(--bg-void);
         }
 
         body {
             font-family: var(--font-body);
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            line-height: 1.7;
+            background: var(--bg-void);
+            color: var(--text-primary);
+            line-height: 1.75;
             font-size: 16px;
             overflow-x: hidden;
+            cursor: default;
         }
 
-        /* ========== HEADER / NAVEGAÇÃO ========== */
+        /* ============ PARTÍCULAS DE FUNDO ============ */
+        #particlesCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* ============ CURSOR PERSONALIZADO ============ */
+        .cursor-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(circle, rgba(0, 240, 168, 0.04) 0%, rgba(0, 198, 255, 0.02) 30%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: opacity 0.4s;
+            will-change: left, top;
+        }
+
+        /* ============ HEADER ============ */
         header {
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: rgba(20, 20, 20, 0.9);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 0 24px;
-            transition: var(--transition);
+            background: rgba(10, 10, 15, 0.7);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0 32px;
+            transition: all 0.4s var(--ease-out-expo);
+        }
+        header.scrolled {
+            box-shadow: 0 4px 40px rgba(0, 0, 0, 0.6);
+            background: rgba(10, 10, 15, 0.85);
         }
 
         .header-inner {
@@ -65,145 +106,268 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 64px;
-            gap: 16px;
+            height: 76px;
+            gap: 20px;
         }
 
         .logo {
-            font-family: var(--font-title);
-            font-size: 1.8rem;
-            font-weight: bold;
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 900;
             color: #fff;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             white-space: nowrap;
+            position: relative;
         }
-        .logo span {
-            color: var(--accent-green);
+        .logo .o2 {
+            background: linear-gradient(135deg, var(--emerald), var(--ocean));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px var(--emerald-glow));
         }
-        .logo sub {
-            font-size: 0.6em;
+        .logo .sub {
+            font-size: 0.5em;
             vertical-align: super;
-            color: var(--accent-blue);
+            color: var(--gold);
+            -webkit-text-fill-color: var(--gold);
+            animation: floatLogo 3s ease-in-out infinite;
+        }
+        @keyframes floatLogo {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-6px);
+            }
         }
 
         nav {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
             justify-content: flex-end;
+            align-items: center;
         }
         nav a {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             text-decoration: none;
-            padding: 8px 14px;
-            border-radius: 24px;
-            font-size: 0.9rem;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-size: 0.88rem;
             font-weight: 500;
-            transition: var(--transition);
+            letter-spacing: 0.3px;
+            transition: all 0.35s var(--ease-spring);
             white-space: nowrap;
             border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
         }
-        nav a:hover,
+        nav a::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 30px;
+            background: linear-gradient(135deg, var(--emerald), var(--ocean));
+            opacity: 0;
+            transition: opacity 0.35s;
+            z-index: -1;
+        }
+        nav a:hover {
+            color: #fff;
+            border-color: var(--border-glow);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
         nav a.active {
             color: #fff;
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.25);
+            font-weight: 600;
+            box-shadow: 0 0 20px rgba(0, 240, 168, 0.1);
         }
 
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: #fff;
-            font-size: 1.8rem;
-            cursor: pointer;
-            padding: 4px 8px;
-        }
-
-        /* ========== SEÇÕES GERAIS ========== */
+        /* ============ SEÇÕES ============ */
         section {
-            padding: 80px 24px;
+            padding: 100px 32px;
             min-height: 100vh;
             display: flex;
             align-items: center;
             position: relative;
             overflow: hidden;
+            z-index: 1;
         }
         .section-inner {
-            max-width: 1000px;
+            max-width: 1050px;
             margin: 0 auto;
             width: 100%;
             position: relative;
-            z-index: 2;
+            z-index: 3;
         }
         .section-number {
-            font-size: 0.85rem;
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--accent-gold);
-            margin-bottom: 16px;
+            letter-spacing: 4px;
+            color: var(--gold);
+            margin-bottom: 12px;
             font-weight: 600;
+            border: 1px solid rgba(255, 179, 71, 0.3);
+            padding: 6px 16px;
+            border-radius: 20px;
+            background: rgba(255, 179, 71, 0.05);
+            backdrop-filter: blur(10px);
         }
         h2 {
-            font-family: var(--font-title);
-            font-size: 2.8rem;
-            margin-bottom: 24px;
-            line-height: 1.2;
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.15;
             color: #fff;
+            letter-spacing: -0.5px;
+        }
+        h2 .accent {
+            background: linear-gradient(135deg, var(--emerald), var(--ocean));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         h3 {
-            font-family: var(--font-title);
-            font-size: 1.6rem;
-            margin: 36px 0 16px;
-            color: #e8e0d0;
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            margin: 44px 0 18px;
+            color: #e8e2d4;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
         h4 {
-            font-size: 1.2rem;
-            margin: 20px 0 10px;
-            color: var(--accent-gold);
+            font-size: 1.15rem;
+            margin: 16px 0 8px;
+            color: var(--gold);
             font-weight: 600;
+            letter-spacing: 0.3px;
         }
         p {
-            margin-bottom: 18px;
-            color: #ccc;
+            margin-bottom: 16px;
+            color: #c8c4bb;
+            font-weight: 400;
         }
         .highlight {
             color: #fff;
             font-weight: 600;
-            background: rgba(255, 255, 255, 0.06);
-            padding: 2px 8px;
-            border-radius: 4px;
+            background: linear-gradient(135deg, rgba(0, 240, 168, 0.12), rgba(0, 198, 255, 0.08));
+            padding: 3px 10px;
+            border-radius: 6px;
+            border-left: 2px solid var(--emerald);
         }
-        .stat-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius);
-            padding: 28px;
-            margin: 24px 0;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
+        blockquote {
+            border-left: 3px solid var(--emerald);
+            padding: 20px 28px;
+            margin: 32px 0;
+            background: rgba(0, 240, 168, 0.04);
+            border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+            font-style: italic;
+            color: #d8d4ca;
+            font-size: 1.05rem;
+            position: relative;
         }
-        .stat-card:hover {
-            border-color: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
-        }
-        .stat-number {
-            font-size: 3rem;
-            font-weight: 700;
-            color: var(--accent-red);
+        blockquote::before {
+            content: '"';
+            position: absolute;
+            left: 12px;
+            top: -10px;
+            font-size: 4rem;
+            color: rgba(0, 240, 168, 0.2);
+            font-family: var(--font-display);
             line-height: 1;
         }
+        hr {
+            border: none;
+            border-top: 1px solid var(--border-subtle);
+            margin: 40px 0;
+            position: relative;
+        }
+        hr::after {
+            content: '•';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--emerald);
+            background: var(--bg-void);
+            padding: 0 16px;
+            font-size: 1.2rem;
+        }
+
+        /* ============ CARDS E STATS ============ */
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            margin: 20px 0;
+            box-shadow: var(--shadow-card);
+            transition: all 0.5s var(--ease-out-expo);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .stat-card:hover {
+            border-color: var(--border-glow);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 240, 168, 0.08);
+            background: var(--surface-hover);
+        }
+        .stat-number {
+            font-size: 3.4rem;
+            font-weight: 800;
+            font-family: var(--font-display);
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+        .stat-number.red {
+            background: linear-gradient(135deg, #ff3d5c, #ff6b7f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px var(--crimson-glow));
+        }
         .stat-number.green {
-            color: var(--accent-green);
+            background: linear-gradient(135deg, #00f0a8, #00c6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px var(--emerald-glow));
         }
         .stat-number.blue {
-            color: var(--accent-blue);
+            background: linear-gradient(135deg, #00c6ff, #7b68ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px var(--ocean-glow));
         }
         .stat-label {
-            color: var(--text-muted);
+            color: var(--text-secondary);
             font-size: 0.95rem;
-            margin-top: 4px;
+            margin-top: 6px;
+            font-weight: 400;
         }
+        .stat-label strong {
+            color: #fff;
+        }
+
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -215,226 +379,396 @@
             gap: 24px;
         }
         .card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius);
-            padding: 24px;
-            transition: var(--transition);
+            background: var(--surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 28px 24px;
+            transition: all 0.5s var(--ease-out-expo);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-lg);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.02) 0%, transparent 50%);
+            pointer-events: none;
         }
         .card:hover {
-            border-color: rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--border-glow);
+            transform: translateY(-6px);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 240, 168, 0.06);
+            background: var(--surface-hover);
         }
         .icon-big {
-            font-size: 2.8rem;
-            margin-bottom: 12px;
+            font-size: 3rem;
+            margin-bottom: 14px;
+            display: inline-block;
+            transition: transform 0.4s var(--ease-spring);
         }
-        hr {
-            border: none;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin: 32px 0;
-        }
-        blockquote {
-            border-left: 4px solid var(--accent-green);
-            padding: 16px 24px;
-            margin: 28px 0;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 0 var(--radius) var(--radius) 0;
-            font-style: italic;
-            color: #d0d0d0;
+        .card:hover .icon-big {
+            transform: scale(1.2) rotate(5deg);
         }
 
-        /* ========== FUNDOS DAS SEÇÕES ========== */
+        /* ============ FUNDOS DAS SEÇÕES ============ */
         #sec1 {
-            background: linear-gradient(160deg, #2c2416 0%, #1a1814 40%, #1f1a10 100%);
+            background: linear-gradient(175deg, #0d1110 0%, #0a0f0c 30%, #0c1410 60%, #080d0a 100%);
         }
-        #sec1::before {
-            content: '';
+        #sec1 .bg-orb {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(ellipse at 70% 30%, rgba(180, 100, 40, 0.12) 0%, transparent 60%),
-                radial-gradient(ellipse at 20% 80%, rgba(200, 80, 40, 0.08) 0%, transparent 50%);
+            border-radius: 50%;
+            filter: blur(120px);
             z-index: 1;
+            pointer-events: none;
         }
-        #sec2 {
-            background: linear-gradient(160deg, #1f2a2f 0%, #141c20 40%, #1a2228 100%);
+        #sec1 .bg-orb-1 {
+            width: 500px;
+            height: 500px;
+            background: rgba(200, 80, 40, 0.08);
+            top: -10%;
+            right: -15%;
+            animation: orbFloat1 20s ease-in-out infinite;
         }
-        #sec2::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(ellipse at 30% 50%, rgba(100, 140, 180, 0.1) 0%, transparent 60%),
-                radial-gradient(ellipse at 70% 70%, rgba(120, 80, 80, 0.06) 0%, transparent 50%);
-            z-index: 1;
+        #sec1 .bg-orb-2 {
+            width: 350px;
+            height: 350px;
+            background: rgba(255, 179, 71, 0.06);
+            bottom: -5%;
+            left: -10%;
+            animation: orbFloat2 25s ease-in-out infinite;
         }
-        #sec3 {
-            background: linear-gradient(160deg, #1a2f1f 0%, #121e15 40%, #18261a 100%);
+        @keyframes orbFloat1 {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(40px, -30px) scale(1.1);
+            }
+            50% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+            75% {
+                transform: translate(30px, 10px) scale(1.05);
+            }
         }
-        #sec3::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(ellipse at 60% 40%, rgba(70, 160, 100, 0.12) 0%, transparent 60%),
-                radial-gradient(ellipse at 20% 60%, rgba(50, 100, 150, 0.08) 0%, transparent 50%);
-            z-index: 1;
-        }
-        #sec4 {
-            background: linear-gradient(160deg, #1e3b3b 0%, #142a2a 40%, #1a3030 100%);
-        }
-        #sec4::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(ellipse at 50% 50%, rgba(80, 180, 160, 0.12) 0%, transparent 60%);
-            z-index: 1;
+        @keyframes orbFloat2 {
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(-50px, 30px) scale(1.15);
+            }
+            66% {
+                transform: translate(30px, -20px) scale(0.85);
+            }
         }
 
-        /* ========== FOOTER ========== */
+        #sec2 {
+            background: linear-gradient(175deg, #0a1018 0%, #080d14 30%, #0b131c 60%, #060a10 100%);
+        }
+        #sec2 .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(130px);
+            z-index: 1;
+            pointer-events: none;
+        }
+        #sec2 .bg-orb-1 {
+            width: 600px;
+            height: 600px;
+            background: rgba(0, 198, 255, 0.06);
+            top: 20%;
+            left: -20%;
+            animation: orbFloat1 22s ease-in-out infinite reverse;
+        }
+        #sec2 .bg-orb-2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 61, 92, 0.05);
+            bottom: -10%;
+            right: -10%;
+            animation: orbFloat2 18s ease-in-out infinite;
+        }
+
+        #sec3 {
+            background: linear-gradient(175deg, #0a140e 0%, #060f09 30%, #09140d 60%, #040a06 100%);
+        }
+        #sec3 .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(140px);
+            z-index: 1;
+            pointer-events: none;
+        }
+        #sec3 .bg-orb-1 {
+            width: 550px;
+            height: 550px;
+            background: rgba(0, 240, 168, 0.07);
+            top: 30%;
+            right: -20%;
+            animation: orbFloat1 24s ease-in-out infinite;
+        }
+        #sec3 .bg-orb-2 {
+            width: 450px;
+            height: 450px;
+            background: rgba(0, 198, 255, 0.05);
+            bottom: 10%;
+            left: -15%;
+            animation: orbFloat2 20s ease-in-out infinite reverse;
+        }
+
+        #sec4 {
+            background: linear-gradient(175deg, #0c1618 0%, #080f10 30%, #0b1517 60%, #050a0b 100%);
+        }
+        #sec4 .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(130px);
+            z-index: 1;
+            pointer-events: none;
+        }
+        #sec4 .bg-orb-1 {
+            width: 500px;
+            height: 500px;
+            background: rgba(0, 240, 168, 0.08);
+            top: 10%;
+            left: 30%;
+            animation: orbFloat1 26s ease-in-out infinite;
+        }
+        #sec4 .bg-orb-2 {
+            width: 350px;
+            height: 350px;
+            background: rgba(255, 179, 71, 0.06);
+            bottom: -5%;
+            right: 20%;
+            animation: orbFloat2 19s ease-in-out infinite;
+        }
+
+        /* ============ GEOMETRIC DECORATIONS ============ */
+        .geo-lines {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.04;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.5) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+        }
+
+        /* ============ HIGHLIGHT BOX ============ */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(0, 240, 168, 0.08), rgba(0, 198, 255, 0.05));
+            border: 1px solid rgba(0, 240, 168, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 24px 28px;
+            margin: 20px 0;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 40px rgba(0, 240, 168, 0.06);
+        }
+        .highlight-box.green {
+            background: rgba(0, 240, 168, 0.06);
+            border-color: rgba(0, 240, 168, 0.35);
+        }
+        .highlight-box.blue {
+            background: rgba(0, 198, 255, 0.06);
+            border-color: rgba(0, 198, 255, 0.3);
+        }
+
+        /* ============ FOOTER ============ */
         footer {
             text-align: center;
-            padding: 40px 24px;
-            background: #111;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            color: var(--text-muted);
+            padding: 50px 24px;
+            background: #060608;
+            border-top: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
             font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
         }
         footer .logo {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             margin-bottom: 8px;
             display: inline-block;
         }
 
-        /* ========== ANIMAÇÕES ========== */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .animate {
-            animation: fadeInUp 0.8s ease forwards;
-        }
-        .animate-delay-1 {
-            animation-delay: 0.15s;
-            opacity: 0;
-        }
-        .animate-delay-2 {
-            animation-delay: 0.3s;
-            opacity: 0;
-        }
-        .animate-delay-3 {
-            animation-delay: 0.45s;
-            opacity: 0;
-        }
-        .animate-delay-4 {
-            animation-delay: 0.6s;
-            opacity: 0;
-        }
-
-        /* ========== BOTÃO VOLTAR AO TOPO ========== */
+        /* ============ BOTÃO VOLTAR AO TOPO ============ */
         #backToTop {
             position: fixed;
-            bottom: 32px;
-            right: 32px;
+            bottom: 36px;
+            right: 36px;
             z-index: 999;
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
-            background: var(--accent-green);
+            background: linear-gradient(135deg, var(--emerald), #00b87a);
             color: #fff;
             border: none;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             cursor: pointer;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-            transition: var(--transition);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 30px var(--emerald-glow);
+            transition: all 0.4s var(--ease-spring);
             opacity: 0;
             pointer-events: none;
             display: flex;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(10px);
         }
         #backToTop.visible {
             opacity: 1;
             pointer-events: auto;
         }
         #backToTop:hover {
-            background: #5cc98a;
-            transform: translateY(-3px);
+            transform: translateY(-6px) scale(1.08);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 50px var(--emerald-glow);
         }
 
-        /* ========== RESPONSIVO ========== */
-        @media (max-width: 900px) {
+        /* ============ SCROLLBAR ============ */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-void);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        /* ============ ANIMAÇÕES DE ENTRADA ============ */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .reveal {
+            opacity: 0;
+            transition: all 0.9s var(--ease-out-expo);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+        .reveal-up {
+            transform: translateY(60px);
+        }
+        .reveal-scale {
+            transform: scale(0.88);
+        }
+        .delay-1 {
+            transition-delay: 0.1s;
+        }
+        .delay-2 {
+            transition-delay: 0.2s;
+        }
+        .delay-3 {
+            transition-delay: 0.3s;
+        }
+        .delay-4 {
+            transition-delay: 0.4s;
+        }
+        .delay-5 {
+            transition-delay: 0.5s;
+        }
+
+        /* ============ RESPONSIVO ============ */
+        @media (max-width: 1000px) {
             .grid-2,
             .grid-3 {
                 grid-template-columns: 1fr;
             }
             h2 {
-                font-size: 2rem;
-            }
-            .stat-number {
                 font-size: 2.2rem;
             }
-            nav {
-                gap: 4px;
+            h3 {
+                font-size: 1.4rem;
+            }
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            section {
+                padding: 70px 20px;
             }
             nav a {
-                padding: 6px 10px;
-                font-size: 0.78rem;
+                padding: 8px 14px;
+                font-size: 0.8rem;
             }
         }
         @media (max-width: 700px) {
             .header-inner {
                 flex-wrap: wrap;
                 height: auto;
-                padding: 12px 0;
-                gap: 8px;
+                padding: 14px 0;
+                gap: 10px;
+                justify-content: center;
             }
             .logo {
-                font-size: 1.4rem;
+                font-size: 1.5rem;
             }
             nav {
                 width: 100%;
                 justify-content: center;
-                gap: 2px;
+                gap: 3px;
             }
             nav a {
                 font-size: 0.72rem;
-                padding: 6px 8px;
+                padding: 7px 10px;
             }
             section {
-                padding: 50px 16px;
+                padding: 50px 14px;
             }
             h2 {
-                font-size: 1.6rem;
+                font-size: 1.8rem;
             }
             .stat-number {
-                font-size: 1.8rem;
+                font-size: 2rem;
+            }
+            .cursor-glow {
+                display: none;
             }
         }
     </style>
 </head>
 <body>
 
+    <!-- CURSOR GLOW -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- CANVAS DE PARTÍCULAS -->
+    <canvas id="particlesCanvas"></canvas>
+
     <!-- ==================== HEADER ==================== -->
     <header id="header">
         <div class="header-inner">
-            <div class="logo">Projeto <span>O₂</span><sub>☁️</sub></div>
+            <div class="logo">Projeto <span class="o2">O₂</span><span class="sub">☁️</span></div>
             <nav id="nav">
                 <a href="#sec1" class="active">Planeta Sufocado</a>
                 <a href="#sec2">Vilão Invisível</a>
@@ -446,68 +780,74 @@
 
     <!-- ==================== SEÇÃO 1: O PLANETA SUFOCADO ==================== -->
     <section id="sec1">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="geo-lines"></div>
         <div class="section-inner">
-            <div class="section-number animate">Seção 1 de 4</div>
-            <h2 class="animate animate-delay-1">🌳 O Planeta Sufocado:<br>O Problema do Desmatamento Acelerado</h2>
+            <div class="section-number reveal reveal-scale">Seção 1 de 4</div>
+            <h2 class="reveal reveal-up delay-1">🌳 O Planeta <span class="accent">Sufocado</span>:<br>O Problema do Desmatamento Acelerado</h2>
 
-            <h3 class="animate animate-delay-2">Introdução: A Ferida Que Não Cura</h3>
-            <p class="animate animate-delay-2">Imagine que você tem um cofre onde guarda todo o ar puro do mundo. Todo mês, você tira um punhado de moedas de ouro (oxigênio) e, em troca, joga um punhado de cinzas (gás carbônico) lá dentro. No começo, o cofre é imenso e dá conta do recado. Mas e se você começar a tirar moedas muito mais rápido do que elas se renovam, e ainda jogar cada vez mais cinzas? Uma hora, o cofre vira um depósito de fuligem.</p>
-            <p class="animate animate-delay-2">É exatamente isso que está acontecendo com a Terra. O "cofre" são as florestas e os oceanos. As "moedas de ouro" são o oxigênio. As "cinzas" são o dióxido de carbono (CO₂). E o humano moderno se tornou um gastador compulsivo: <span class="highlight">desmata quilômetros e quilômetros por ano, não replanta na mesma velocidade e, de quebra, polui o que restou.</span> O saldo é um planeta sufocado.</p>
+            <h3 class="reveal reveal-up delay-2">Introdução: A Ferida Que Não Cura</h3>
+            <p class="reveal reveal-up delay-2">Imagine que você tem um cofre onde guarda todo o ar puro do mundo. Todo mês, você tira um punhado de moedas de ouro (oxigênio) e, em troca, joga um punhado de cinzas (gás carbônico) lá dentro. No começo, o cofre é imenso e dá conta do recado. Mas e se você começar a tirar moedas muito mais rápido do que elas se renovam, e ainda jogar cada vez mais cinzas? Uma hora, o cofre vira um depósito de fuligem.</p>
+            <p class="reveal reveal-up delay-2">É exatamente isso que está acontecendo com a Terra. O "cofre" são as florestas e os oceanos. As "moedas de ouro" são o oxigênio. As "cinzas" são o dióxido de carbono (CO₂). E o humano moderno se tornou um gastador compulsivo: <span class="highlight">desmata quilômetros e quilômetros por ano, não replanta na mesma velocidade e, de quebra, polui o que restou.</span> O saldo é um planeta sufocado.</p>
 
-            <h3 class="animate animate-delay-2">📉 Os Números que Contam a História</h3>
-            <p class="animate animate-delay-2">Para entender a gravidade, precisamos olhar para os dados. Eles não são apenas números; são um raio-X da nossa relação com o planeta.</p>
+            <h3 class="reveal reveal-up delay-3">📉 Os Números que Contam a História</h3>
+            <p class="reveal reveal-up delay-3">Para entender a gravidade, precisamos olhar para os dados. Eles não são apenas números; são um raio-X da nossa relação com o planeta.</p>
 
             <div class="grid-2">
-                <div class="stat-card animate animate-delay-3">
-                    <div class="stat-number">10 mi</div>
+                <div class="stat-card reveal reveal-scale delay-3">
+                    <div class="stat-number red">10 mi</div>
                     <div class="stat-label">hectares de florestas perdidos <strong>por ano</strong></div>
-                    <p style="margin-top:8px;font-size:0.9rem;">Equivale a destruir um <strong>Portugal</strong> ou um <strong>Pernambuco</strong> inteiro em apenas 365 dias. Campos de futebol desaparecendo a cada segundo.</p>
+                    <p style="margin-top:10px;font-size:0.92rem;">Equivale a destruir um <strong>Portugal</strong> ou um <strong>Pernambuco</strong> inteiro em apenas 365 dias. Campos de futebol desaparecendo a cada segundo.</p>
                 </div>
-                <div class="stat-card animate animate-delay-3">
+                <div class="stat-card reveal reveal-scale delay-4">
                     <div class="stat-number green">&lt; 10%</div>
                     <div class="stat-label">do que é desmatado é <strong>replantado</strong></div>
-                    <p style="margin-top:8px;font-size:0.9rem;">Para cada <strong>100 árvores derrubadas</strong>, replantamos menos de 10. O resto vira solo exposto, pastagem ou deserto.</p>
+                    <p style="margin-top:10px;font-size:0.92rem;">Para cada <strong>100 árvores derrubadas</strong>, replantamos menos de 10. O resto vira solo exposto, pastagem ou deserto.</p>
                 </div>
             </div>
 
-            <blockquote class="animate animate-delay-4">
+            <blockquote class="reveal reveal-scale delay-4">
                 <strong>Desmatamos mais do que restauramos.</strong> A ferida está aberta e sangrando. E a poluição agrava tudo: onde antes havia floresta, agora há gado, carros, indústrias e queimadas que liberam ainda mais CO₂. Cortamos a árvore que respirava por nós e ainda ligamos um motor a diesel no lugar dela.
             </blockquote>
 
-            <h3 class="animate animate-delay-4">🔍 Por Que Isso é um Problema Tão Grave?</h3>
-            <p class="animate animate-delay-4">Uma árvore é uma máquina viva de capturar carbono. Durante toda a sua vida, ela retira CO₂ do ar, separa o carbono (que usa para construir seu tronco, galhos e raízes) e devolve o oxigênio para a atmosfera. Quando derrubamos e queimamos uma floresta, duas tragédias acontecem ao mesmo tempo:</p>
+            <h3 class="reveal reveal-up delay-4">🔍 Por Que Isso é um Problema Tão Grave?</h3>
+            <p class="reveal reveal-up delay-4">Uma árvore é uma máquina viva de capturar carbono. Durante toda a sua vida, ela retira CO₂ do ar, separa o carbono (que usa para construir seu tronco, galhos e raízes) e devolve o oxigênio para a atmosfera. Quando derrubamos e queimamos uma floresta, duas tragédias acontecem ao mesmo tempo:</p>
 
             <div class="grid-2">
-                <div class="card animate animate-delay-4">
+                <div class="card reveal reveal-scale delay-4">
                     <div class="icon-big">🛑</div>
                     <h4>1. Paramos de Capturar</h4>
                     <p>Aquela "fábrica de oxigênio" deixa de existir. Perdemos um aliado na limpeza do ar.</p>
                 </div>
-                <div class="card animate animate-delay-4">
+                <div class="card reveal reveal-scale delay-5">
                     <div class="icon-big">💥</div>
                     <h4>2. Liberamos os Estoques</h4>
                     <p>Todo o carbono guardado no tronco, folhas e solo é liberado como CO₂. Uma floresta queimada é uma bomba de carbono que explode.</p>
                 </div>
             </div>
 
-            <p class="animate animate-delay-4" style="margin-top:20px;">O resultado é um <span class="highlight">ciclo vicioso e perigoso</span>: menos florestas significam mais CO₂ no ar. Mais CO₂ intensifica o efeito estufa e as mudanças climáticas. E as mudanças climáticas, com secas e temperaturas extremas, matam ainda mais florestas. Estamos girando uma engrenagem que tritura o equilíbrio do planeta.</p>
+            <p class="reveal reveal-up delay-5" style="margin-top:24px;">O resultado é um <span class="highlight">ciclo vicioso e perigoso</span>: menos florestas significam mais CO₂ no ar. Mais CO₂ intensifica o efeito estufa e as mudanças climáticas. E as mudanças climáticas, com secas e temperaturas extremas, matam ainda mais florestas. Estamos girando uma engrenagem que tritura o equilíbrio do planeta.</p>
         </div>
     </section>
 
     <!-- ==================== SEÇÃO 2: O VILÃO INVISÍVEL ==================== -->
     <section id="sec2">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="geo-lines"></div>
         <div class="section-inner">
-            <div class="section-number animate">Seção 2 de 4</div>
-            <h2 class="animate animate-delay-1">🧪 O Vilão Invisível:<br>Entendendo o Dióxido de Carbono (CO₂)</h2>
+            <div class="section-number reveal reveal-scale">Seção 2 de 4</div>
+            <h2 class="reveal reveal-up delay-1">🧪 O Vilão <span class="accent">Invisível</span>:<br>Entendendo o Dióxido de Carbono (CO₂)</h2>
 
-            <h3 class="animate animate-delay-1">O Que é o CO₂ Exatamente?</h3>
-            <p class="animate animate-delay-1">O dióxido de carbono é uma molécula composta por <strong>um átomo de carbono e dois de oxigênio (CO₂)</strong>. É um gás invisível, inodoro e não tóxico em concentrações normais. Na verdade, ele é <strong>essencial para a vida</strong>. Sem CO₂, as plantas não fariam fotossíntese. Ele também ajuda a manter a Terra aquecida, através do <strong>efeito estufa natural</strong>. Sem ele, seríamos uma bola de gelo.</p>
-            <p class="animate animate-delay-1">Então, se ele é natural e essencial, por que o tratamos como vilão? <span class="highlight">A resposta está na dose. O problema não é o CO₂ em si, mas o desequilíbrio brutal que criamos em seu ciclo natural.</span></p>
+            <h3 class="reveal reveal-up delay-2">O Que é o CO₂ Exatamente?</h3>
+            <p class="reveal reveal-up delay-2">O dióxido de carbono é uma molécula composta por <strong>um átomo de carbono e dois de oxigênio (CO₂)</strong>. É um gás invisível, inodoro e não tóxico em concentrações normais. Na verdade, ele é <strong>essencial para a vida</strong>. Sem CO₂, as plantas não fariam fotossíntese. Ele também ajuda a manter a Terra aquecida, através do <strong>efeito estufa natural</strong>. Sem ele, seríamos uma bola de gelo.</p>
+            <p class="reveal reveal-up delay-2">Então, se ele é natural e essencial, por que o tratamos como vilão? <span class="highlight">A resposta está na dose. O problema não é o CO₂ em si, mas o desequilíbrio brutal que criamos em seu ciclo natural.</span></p>
 
-            <h3 class="animate animate-delay-2">⚖️ O Ciclo do Carbono: Uma Balança Que Quebramos</h3>
-            <p class="animate animate-delay-2">Durante milhões de anos, o planeta manteve um balanço quase perfeito. O CO₂ emitido por vulcões, respiração animal e decomposição era capturado pelas florestas, oceanos e algas, que o transformavam em matéria orgânica e oxigênio. O que sobrava era armazenado no subsolo como petróleo, carvão e gás natural.</p>
+            <h3 class="reveal reveal-up delay-3">⚖️ O Ciclo do Carbono: Uma Balança Que Quebramos</h3>
+            <p class="reveal reveal-up delay-3">Durante milhões de anos, o planeta manteve um balanço quase perfeito. O CO₂ emitido por vulcões, respiração animal e decomposição era capturado pelas florestas, oceanos e algas, que o transformavam em matéria orgânica e oxigênio. O que sobrava era armazenado no subsolo como petróleo, carvão e gás natural.</p>
 
-            <div class="stat-card animate animate-delay-3">
+            <div class="stat-card reveal reveal-scale delay-3">
                 <p style="font-size:1.1rem;"><strong>O que o ser humano fez?</strong> Quebrou a balança em duas frentes:</p>
                 <div style="margin-top:16px;">
                     <h4>1. Emissão Desenfreada</h4>
@@ -519,11 +859,11 @@
                 </div>
             </div>
 
-            <h3 class="animate animate-delay-3">📈 Concentração de CO₂: Uma Bomba-Relógio Silenciosa</h3>
-            <p class="animate animate-delay-3">Por milênios, a concentração de CO₂ na atmosfera oscilou entre 180 ppm (eras glaciais) e 280 ppm (períodos quentes). Hoje, <span class="highlight">ultrapassamos perigosamente as 420 ppm</span>. Um aumento de 50% em pouco mais de um século. A natureza não tem tempo de se adaptar.</p>
+            <h3 class="reveal reveal-up delay-4">📈 Concentração de CO₂: Uma Bomba-Relógio Silenciosa</h3>
+            <p class="reveal reveal-up delay-4">Por milênios, a concentração de CO₂ na atmosfera oscilou entre 180 ppm (eras glaciais) e 280 ppm (períodos quentes). Hoje, <span class="highlight">ultrapassamos perigosamente as 420 ppm</span>. Um aumento de 50% em pouco mais de um século. A natureza não tem tempo de se adaptar.</p>
 
-            <div class="stat-card animate animate-delay-4">
-                <div class="stat-number" style="color:#e05a3d;">420 ppm</div>
+            <div class="stat-card reveal reveal-scale delay-5" style="text-align:center;">
+                <div class="stat-number" style="background:linear-gradient(135deg,#ff3d5c,#ff6b7f);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 25px rgba(255,61,92,0.5));">420 ppm</div>
                 <div class="stat-label">concentração atual de CO₂ na atmosfera</div>
                 <p style="margin-top:12px;">Esse excesso age como um <strong>cobertor cada vez mais grosso</strong> ao redor da Terra. O calor do sol entra, mas uma parte maior fica presa. Resultado: aquecimento global, ondas de calor, degelo, aumento do nível do mar e eventos climáticos extremos.</p>
             </div>
@@ -532,62 +872,63 @@
 
     <!-- ==================== SEÇÃO 3: OS HERÓIS NATURAIS ==================== -->
     <section id="sec3">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="geo-lines"></div>
         <div class="section-inner">
-            <div class="section-number animate">Seção 3 de 4</div>
-            <h2 class="animate animate-delay-1">🌿 Os Heróis Naturais:<br>Árvores, Algas e o Poder da Fotossíntese</h2>
+            <div class="section-number reveal reveal-scale">Seção 3 de 4</div>
+            <h2 class="reveal reveal-up delay-1">🌿 Os Heróis <span class="accent">Naturais</span>:<br>Árvores, Algas e o Poder da Fotossíntese</h2>
 
-            <h3 class="animate animate-delay-1">☀️ A Fábrica Perfeita e Silenciosa: A Fotossíntese</h3>
-            <p class="animate animate-delay-1">Se o CO₂ é o vilão do desequilíbrio, a natureza nos oferece a solução em uma equação de elegância absoluta:</p>
+            <h3 class="reveal reveal-up delay-2">☀️ A Fábrica Perfeita e Silenciosa: A Fotossíntese</h3>
+            <p class="reveal reveal-up delay-2">Se o CO₂ é o vilão do desequilíbrio, a natureza nos oferece a solução em uma equação de elegância absoluta:</p>
 
-            <div class="stat-card animate animate-delay-2" style="text-align:center;background:rgba(70,160,100,0.1);border-color:rgba(70,160,100,0.3);">
-                <p style="font-size:1.3rem;font-weight:600;color:#fff;">💧 H₂O + 🫧 CO₂ + ☀️ Luz Solar → 🍬 Glicose + 🫁 Oxigênio (O₂)</p>
-                <p style="font-size:0.9rem;color:#b0d8c0;">Água + Dióxido de Carbono + Energia luminosa = Alimento para a planta + Ar puro para nós</p>
+            <div class="highlight-box green reveal reveal-scale delay-2">
+                <p style="font-size:1.3rem;font-weight:600;color:#fff;margin:0;">💧 H₂O + 🫧 CO₂ + ☀️ Luz Solar → 🍬 Glicose + 🫁 Oxigênio (O₂)</p>
+                <p style="font-size:0.9rem;color:#b0d8c0;margin:8px 0 0;">Água + Dióxido de Carbono + Energia luminosa = Alimento para a planta + Ar puro para nós</p>
             </div>
 
-            <p class="animate animate-delay-2">Cada folha é um painel solar biológico. Cada tronco é um cofre de carbono. E existem dois guardiões supremos desse processo: as <strong>árvores</strong> em terra e as <strong>algas</strong> no mar.</p>
+            <p class="reveal reveal-up delay-2">Cada folha é um painel solar biológico. Cada tronco é um cofre de carbono. E existem dois guardiões supremos desse processo: as <strong>árvores</strong> em terra e as <strong>algas</strong> no mar.</p>
 
-            <!-- Árvores -->
-            <h3 class="animate animate-delay-3">🌲 Guardiões da Terra: As Árvores</h3>
+            <h3 class="reveal reveal-up delay-3">🌲 Guardiões da Terra: As Árvores</h3>
             <div class="grid-2">
-                <div class="card animate animate-delay-3">
+                <div class="card reveal reveal-scale delay-3">
                     <div class="icon-big">🌳</div>
                     <h4>Captura de Carbono</h4>
                     <p>Uma árvore adulta absorve <strong>20 a 22 kg de CO₂ por ano</strong>. Em 50 anos de vida, retira <strong>+1 tonelada</strong> de CO₂ da atmosfera.</p>
                 </div>
-                <div class="card animate animate-delay-3">
+                <div class="card reveal reveal-scale delay-4">
                     <div class="icon-big">🪵</div>
                     <h4>Armazenamento no Solo</h4>
                     <p>Quando morre naturalmente, o carbono vai para o solo, onde fica armazenado por séculos. O solo das florestas é um dos maiores depósitos de carbono do planeta.</p>
                 </div>
             </div>
-            <p class="animate animate-delay-3"><span class="highlight">Desmatar não é só matar a árvore, é revirar esse depósito e mandar o carbono de volta para o ar.</span> Uma floresta intacta também gera chuva, regula a temperatura e abriga biodiversidade.</p>
+            <p class="reveal reveal-up delay-4"><span class="highlight">Desmatar não é só matar a árvore, é revirar esse depósito e mandar o carbono de volta para o ar.</span> Uma floresta intacta também gera chuva, regula a temperatura e abriga biodiversidade.</p>
 
-            <hr class="animate animate-delay-4">
+            <hr class="reveal reveal-scale delay-4">
 
-            <!-- Algas -->
-            <h3 class="animate animate-delay-4">🌊 Guardiões dos Mares: As Algas e o Fitoplâncton</h3>
-            <p class="animate animate-delay-4">Se você acredita que as florestas são o "pulmão do mundo", está parcialmente correto. Mas o verdadeiro pulmão é azul. Cerca de <span class="highlight">50% a 70% de todo o oxigênio do planeta</span> vem dos oceanos, produzido por seres microscópicos: as algas e o fitoplâncton.</p>
+            <h3 class="reveal reveal-up delay-4">🌊 Guardiões dos Mares: As Algas e o Fitoplâncton</h3>
+            <p class="reveal reveal-up delay-4">Se você acredita que as florestas são o "pulmão do mundo", está parcialmente correto. Mas o verdadeiro pulmão é azul. Cerca de <span class="highlight">50% a 70% de todo o oxigênio do planeta</span> vem dos oceanos, produzido por seres microscópicos: as algas e o fitoplâncton.</p>
 
             <div class="grid-2">
-                <div class="card animate animate-delay-4">
+                <div class="card reveal reveal-scale delay-4">
                     <div class="icon-big">🔬</div>
                     <h4>O Que São?</h4>
                     <p>Organismos fotossintetizantes que flutuam na superfície iluminada dos oceanos. São trilhões de minúsculas "fábricas de oxigênio". Coletivamente, formam o maior sumidouro de carbono da Terra.</p>
                 </div>
-                <div class="card animate animate-delay-4">
+                <div class="card reveal reveal-scale delay-5">
                     <div class="icon-big">⬇️</div>
                     <h4>Bombeio Biológico</h4>
                     <p>Quando morrem, parte do carbono que capturaram afunda para as profundezas do oceano, ficando "aprisionado" por séculos. É um mecanismo que literalmente enterra o problema no fundo do mar.</p>
                 </div>
             </div>
 
-            <div class="stat-card animate animate-delay-4" style="background:rgba(74,144,196,0.08);border-color:rgba(74,144,196,0.25);">
+            <div class="stat-card reveal reveal-scale delay-4" style="background:rgba(0,198,255,0.04);border-color:rgba(0,198,255,0.2);">
                 <div class="stat-number blue">10x</div>
                 <div class="stat-label">mais eficientes que as árvores por área cultivada</div>
                 <p style="margin-top:8px;">As microalgas crescem em dias, não em décadas. Um tanque de microalgas pode capturar o carbono equivalente a hectares de floresta. A natureza já nos deu a solução mais veloz e compacta.</p>
             </div>
 
-            <blockquote class="animate animate-delay-4">
+            <blockquote class="reveal reveal-scale delay-5">
                 <strong>🤝 A Solução Unificada: Plantar em Terra e Cultivar no Mar.</strong><br>
                 Se voltarmos a plantar árvores em terra e a cultivar algas no mar em larga escala, uma porção massiva do carbono atmosférico será capturada e transformada de volta em oxigênio. Não é magia, é biologia. A tecnologia mais avançada para salvar o clima não é um robô sugador de CO₂; é uma semente e uma gota d'água com nutrientes.
             </blockquote>
@@ -596,48 +937,51 @@
 
     <!-- ==================== SEÇÃO 4: O QUE PODEMOS FAZER ==================== -->
     <section id="sec4">
+        <div class="bg-orb bg-orb-1"></div>
+        <div class="bg-orb bg-orb-2"></div>
+        <div class="geo-lines"></div>
         <div class="section-inner">
-            <div class="section-number animate">Seção 4 de 4</div>
-            <h2 class="animate animate-delay-1">✨ O Que Podemos Fazer?<br>Da Consciência à Ação</h2>
+            <div class="section-number reveal reveal-scale">Seção 4 de 4</div>
+            <h2 class="reveal reveal-up delay-1">✨ O Que Podemos <span class="accent">Fazer</span>?<br>Da Consciência à Ação</h2>
 
-            <h3 class="animate animate-delay-1">O Fim da Paralisia, O Início da Restauração</h3>
-            <p class="animate animate-delay-1">Depois de navegar por este site, você carrega uma verdade que pode ser libertadora ou paralisante. Saber que <strong>desmatamos mais do que replantamos</strong>, que poluímos mais do que o planeta aguenta e que a própria natureza guarda a chave da cura não pode ser um fardo. <span class="highlight">Precisa ser um motor.</span></p>
-            <p class="animate animate-delay-1">A pior mentira é acreditar que não podemos fazer nada. A ação coletiva começa com a compreensão individual. E a ação tem muitas escalas.</p>
+            <h3 class="reveal reveal-up delay-2">O Fim da Paralisia, O Início da Restauração</h3>
+            <p class="reveal reveal-up delay-2">Depois de navegar por este site, você carrega uma verdade que pode ser libertadora ou paralisante. Saber que <strong>desmatamos mais do que replantamos</strong>, que poluímos mais do que o planeta aguenta e que a própria natureza guarda a chave da cura não pode ser um fardo. <span class="highlight">Precisa ser um motor.</span></p>
+            <p class="reveal reveal-up delay-2">A pior mentira é acreditar que não podemos fazer nada. A ação coletiva começa com a compreensão individual. E a ação tem muitas escalas.</p>
 
-            <h3 class="animate animate-delay-2">🌱 O Pessoal é Planetário</h3>
+            <h3 class="reveal reveal-up delay-3">🌱 O Pessoal é Planetário</h3>
             <div class="grid-3">
-                <div class="card animate animate-delay-2">
+                <div class="card reveal reveal-scale delay-3">
                     <div class="icon-big">👣</div>
                     <h4>Reduza sua Pegada</h4>
                     <p>Consumir menos, reutilizar, reduzir o uso do carro, economizar energia. É o básico que ecoa.</p>
                 </div>
-                <div class="card animate animate-delay-3">
+                <div class="card reveal reveal-scale delay-4">
                     <div class="icon-big">🌱</div>
                     <h4>Plante uma Árvore</h4>
                     <p>Se cada pessoa plantasse e cuidasse de uma árvore nativa até a fase adulta, o impacto seria gigantesco. No quintal, na calçada, ou apoiando projetos de reflorestamento.</p>
                 </div>
-                <div class="card animate animate-delay-4">
+                <div class="card reveal reveal-scale delay-5">
                     <div class="icon-big">🌊</div>
                     <h4>Conheça e Apoie as Algas</h4>
                     <p>Existem projetos sérios de cultivo de algas para captura de carbono. Informar-se e apoiar essas iniciativas é acelerar a solução mais rápida que temos.</p>
                 </div>
             </div>
 
-            <h3 class="animate animate-delay-4" style="margin-top:40px;">🌍 A Escala Global: Onde Entra a Próxima Etapa</h3>
-            <p class="animate animate-delay-4">A consciência é o primeiro passo. A ação pessoal é o segundo. Mas o problema exige escala industrial, e é aí que a tecnologia e a simulação podem nos treinar para pensar grande.</p>
-            <p class="animate animate-delay-4">Como seria gerenciar um planeta, tomando decisões sobre onde plantar florestas e onde instalar fazendas de algas para reverter uma crise de CO₂? Como seria ver, em tempo real, o ar ficando mais limpo e o ecossistema renascendo pelas suas escolhas?</p>
+            <h3 class="reveal reveal-up delay-4" style="margin-top:44px;">🌍 A Escala Global: Onde Entra a Próxima Etapa</h3>
+            <p class="reveal reveal-up delay-4">A consciência é o primeiro passo. A ação pessoal é o segundo. Mas o problema exige escala industrial, e é aí que a tecnologia e a simulação podem nos treinar para pensar grande.</p>
+            <p class="reveal reveal-up delay-4">Como seria gerenciar um planeta, tomando decisões sobre onde plantar florestas e onde instalar fazendas de algas para reverter uma crise de CO₂? Como seria ver, em tempo real, o ar ficando mais limpo e o ecossistema renascendo pelas suas escolhas?</p>
 
-            <div class="stat-card animate animate-delay-4" style="background:rgba(76,175,124,0.1);border-color:rgba(76,175,124,0.3);text-align:center;">
-                <p style="font-size:1.2rem;color:#fff;">🌐 Este site cumpriu seu papel: <strong>explicar, de forma simples e funcional, o problema do desmatamento, o vilão CO₂, e a solução natural das árvores e algas.</strong></p>
+            <div class="highlight-box green reveal reveal-scale delay-5" style="text-align:center;">
+                <p style="font-size:1.2rem;color:#fff;margin:0;">🌐 Este site cumpriu seu papel: <strong>explicar, de forma simples e funcional, o problema do desmatamento, o vilão CO₂, e a solução natural das árvores e algas.</strong></p>
                 <p style="margin-top:12px;">A jornada do entendimento está completa. Mas a jornada da ação está apenas começando.</p>
-                <p style="font-size:1.3rem;font-weight:600;color:var(--accent-green);margin-top:16px;">Continue respirando fundo. E continue pensando no que você pode fazer com o ar que recebeu de presente. 🌍💚</p>
+                <p style="font-size:1.4rem;font-weight:700;background:linear-gradient(135deg,#00f0a8,#00c6ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:16px;">Continue respirando fundo. E continue pensando no que você pode fazer com o ar que recebeu de presente. 🌍💚</p>
             </div>
         </div>
     </section>
 
     <!-- ==================== FOOTER ==================== -->
     <footer>
-        <div class="logo" style="color:#fff;">Projeto <span>O₂</span><sub>☁️</sub></div>
+        <div class="logo" style="color:#fff;">Projeto <span class="o2">O₂</span><span class="sub">☁️</span></div>
         <p>Site educativo · Fase 1 — Entenda, Reflita, Respire</p>
         <p style="margin-top:4px;">🌳 Plante árvores · 🌊 Cultive algas · 🌍 Restaure o equilíbrio</p>
     </footer>
@@ -647,57 +991,188 @@
 
     <!-- ==================== JAVASCRIPT ==================== -->
     <script>
-        // --- Animação ao rolar (Intersection Observer) ---
-        const animatedElements = document.querySelectorAll('.animate, .animate-delay-1, .animate-delay-2, .animate-delay-3, .animate-delay-4');
+        // ============ PARTÍCULAS NO CANVAS ============
+        const canvas = document.getElementById('particlesCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const particleCount = 80;
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animationPlayState = 'running';
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
-
-        animatedElements.forEach(el => {
-            el.style.animationPlayState = 'paused';
-            observer.observe(el);
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
         });
 
-        // --- Navegação: destacar link ativo conforme a seção visível ---
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.5 + 0.6;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
+                this.opacity = Math.random() * 0.5 + 0.15;
+                this.opacitySpeed = (Math.random() - 0.5) * 0.006;
+                this.color = Math.random() < 0.5 ?
+                    `rgba(0,240,168,${this.opacity})` :
+                    `rgba(0,198,255,${this.opacity})`;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.opacity += this.opacitySpeed;
+                if (this.opacity <= 0.08 || this.opacity >= 0.55) {
+                    this.opacitySpeed *= -1;
+                }
+                this.color = this.color.replace(/[\d.]+\)$/, `${this.opacity})`);
+                if (this.x < -20) this.x = canvas.width + 20;
+                if (this.x > canvas.width + 20) this.x = -20;
+                if (this.y < -20) this.y = canvas.height + 20;
+                if (this.y > canvas.height + 20) this.y = -20;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+        initParticles();
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            // Desenhar linhas entre partículas próximas
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(255,255,255,${0.03 * (1 - dist / 150)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // ============ CURSOR GLOW ============
+        const cursorGlow = document.getElementById('cursorGlow');
+        let mouseX = -500;
+        let mouseY = -500;
+        let currentX = -500;
+        let currentY = -500;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            currentX += (mouseX - currentX) * 0.08;
+            currentY += (mouseY - currentY) * 0.08;
+            cursorGlow.style.left = currentX + 'px';
+            cursorGlow.style.top = currentY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Esconder cursor glow em dispositivos touch
+        if ('ontouchstart' in window) {
+            cursorGlow.style.display = 'none';
+        }
+
+        // ============ HEADER SCROLL EFFECT ============
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }, { passive: true });
+
+        // ============ REVELAR ELEMENTOS AO ROLAR ============
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Elementos já visíveis ao carregar
+        window.addEventListener('load', () => {
+            revealElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    el.classList.add('visible');
+                }
+            });
+        });
+
+        // ============ NAVEGAÇÃO: LINK ATIVO ============
         const sections = document.querySelectorAll('section');
         const navLinks = document.querySelectorAll('nav a');
 
         function updateActiveLink() {
-            let currentSectionId = '';
-            const scrollPos = window.scrollY + 120;
+            let currentId = '';
+            const scrollPos = window.scrollY + 140;
             sections.forEach(section => {
                 const top = section.offsetTop;
                 const height = section.offsetHeight;
                 if (scrollPos >= top && scrollPos < top + height) {
-                    currentSectionId = section.getAttribute('id');
+                    currentId = section.getAttribute('id');
                 }
             });
             navLinks.forEach(link => {
                 link.classList.remove('active');
-                if (link.getAttribute('href') === '#' + currentSectionId) {
+                if (link.getAttribute('href') === '#' + currentId) {
                     link.classList.add('active');
                 }
             });
-            // Se estiver no final da página, ativar o último link
             if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
                 navLinks.forEach(link => link.classList.remove('active'));
                 navLinks[navLinks.length - 1].classList.add('active');
             }
         }
-
         window.addEventListener('scroll', updateActiveLink, { passive: true });
         updateActiveLink();
 
-        // --- Botão voltar ao topo ---
+        // ============ BOTÃO VOLTAR AO TOPO ============
         const backToTopBtn = document.getElementById('backToTop');
+
         function toggleBackToTop() {
-            if (window.scrollY > 600) {
+            if (window.scrollY > 700) {
                 backToTopBtn.classList.add('visible');
             } else {
                 backToTopBtn.classList.remove('visible');
@@ -708,18 +1183,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
         toggleBackToTop();
-
-        // --- Disparar animações imediatamente para elementos já visíveis ao carregar ---
-        window.addEventListener('load', () => {
-            animatedElements.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight && rect.bottom > 0) {
-                    el.style.animationPlayState = 'running';
-                    observer.unobserve(el);
-                }
-            });
-        });
     </script>
-
 </body>
 </html>
