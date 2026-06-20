@@ -4,9 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evolução das Indústrias Brasileiras</title>
-    <!-- Font Awesome para ícones -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* ===== CORES DA BANDEIRA ===== */
+        :root {
+            --verde: #009739;
+            --amarelo: #F5C842;
+            --azul-escuro: #0a1628;
+            --azul-bandeira: #012169;
+            --branco: #f0f4fa;
+            --cinza-claro: #b0c7db;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -15,15 +25,15 @@
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #0b0e14;
-            color: #e8edf3;
+            background: var(--azul-escuro);
+            color: var(--branco);
             height: 100vh;
             overflow: hidden;
             display: flex;
             flex-direction: column;
         }
 
-        /* --- Fundo com animação sutil --- */
+        /* --- Fundo com ondas sutis nas cores da bandeira --- */
         body::before {
             content: '';
             position: fixed;
@@ -31,51 +41,55 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle at 30% 40%, rgba(240, 180, 40, 0.03) 0%, transparent 60%),
-                radial-gradient(circle at 70% 80%, rgba(0, 120, 255, 0.03) 0%, transparent 50%);
+            background:
+                radial-gradient(circle at 20% 30%, rgba(0, 151, 57, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(245, 200, 66, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(1, 33, 105, 0.1) 0%, transparent 70%);
             z-index: 0;
-            animation: floatBg 30s infinite alternate ease-in-out;
+            animation: flutuar 35s infinite alternate ease-in-out;
         }
 
-        @keyframes floatBg {
+        @keyframes flutuar {
             0% {
-                transform: translate(0, 0) rotate(0deg);
+                transform: translate(0, 0) scale(1) rotate(0deg);
             }
             100% {
-                transform: translate(2%, -2%) rotate(2deg);
+                transform: translate(3%, -3%) scale(1.05) rotate(3deg);
             }
         }
 
-        /* --- Navegação --- */
+        /* ===== NAVEGAÇÃO SUPERIOR ===== */
         nav {
             position: relative;
             z-index: 10;
-            background: rgba(18, 24, 34, 0.85);
-            backdrop-filter: blur(12px);
-            padding: 0.8rem 2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(1, 33, 105, 0.8);
+            backdrop-filter: blur(14px);
+            padding: 0.7rem 2rem;
+            border-bottom: 2px solid var(--amarelo);
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 0.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
 
         .nav-brand {
             font-weight: 700;
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #f5b042, #f0d080);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--amarelo);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .nav-brand i {
-            -webkit-text-fill-color: initial;
-            color: #f5b042;
+            color: var(--branco);
+            background: var(--verde);
+            padding: 6px;
+            border-radius: 8px;
+            font-size: 1rem;
         }
 
         .nav-links {
@@ -87,39 +101,29 @@
         .nav-btn {
             background: transparent;
             border: none;
-            color: #8899aa;
-            padding: 0.5rem 0.9rem;
-            border-radius: 8px;
+            color: #8aa4c0;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
             font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.3s ease;
-            position: relative;
+            transition: 0.25s ease;
             letter-spacing: 0.3px;
         }
 
         .nav-btn:hover {
-            color: #e8edf3;
-            background: rgba(255, 255, 255, 0.05);
+            color: var(--branco);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .nav-btn.active {
-            color: #f5b042;
-            background: rgba(245, 176, 66, 0.12);
+            color: var(--azul-escuro);
+            background: var(--amarelo);
+            box-shadow: 0 4px 12px rgba(245, 200, 66, 0.3);
+            font-weight: 700;
         }
 
-        .nav-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: 2px;
-            left: 30%;
-            width: 40%;
-            height: 2px;
-            background: #f5b042;
-            border-radius: 2px;
-        }
-
-        /* --- Container principal --- */
+        /* ===== CONTAINER PRINCIPAL ===== */
         .main-container {
             position: relative;
             z-index: 5;
@@ -127,7 +131,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            padding: 1.5rem 2rem 1rem 2rem;
+            padding: 1.5rem 2rem 0.5rem 2rem;
         }
 
         .pages-wrapper {
@@ -141,22 +145,25 @@
             left: 0;
             width: 100%;
             height: 100%;
-            padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+            padding: 0.2rem 0.2rem 0.5rem 0.2rem;
             opacity: 0;
-            transform: translateY(18px) scale(0.98);
+            transform: translateY(20px) scale(0.97);
             pointer-events: none;
-            transition: 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: 0.45s cubic-bezier(0.23, 1, 0.32, 1);
             overflow-y: auto;
             scrollbar-width: thin;
-            scrollbar-color: rgba(245, 176, 66, 0.3) transparent;
+            scrollbar-color: var(--amarelo) transparent;
         }
 
         .page::-webkit-scrollbar {
-            width: 4px;
+            width: 5px;
         }
         .page::-webkit-scrollbar-thumb {
-            background: rgba(245, 176, 66, 0.4);
+            background: var(--amarelo);
             border-radius: 10px;
+        }
+        .page::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .page.active {
@@ -165,42 +172,42 @@
             pointer-events: auto;
         }
 
-        /* --- Estilo dos Cards de Conteúdo --- */
+        /* ===== CARDS DE CONTEÚDO ===== */
         .content-card {
-            max-width: 900px;
+            max-width: 920px;
             margin: 0 auto;
-            background: rgba(24, 32, 45, 0.7);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 24px;
-            padding: 2.5rem 3rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 28px;
+            padding: 2.8rem 3.2rem;
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.7);
             transition: 0.3s;
         }
 
         .content-card h1 {
-            font-size: 2.2rem;
+            font-size: 2.3rem;
             font-weight: 700;
-            margin-bottom: 0.3rem;
-            background: linear-gradient(to right, #f5d080, #f5b042);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
+            margin-bottom: 0.2rem;
+            color: var(--amarelo);
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(245, 200, 66, 0.15);
         }
 
         .content-card .subtitle {
-            color: #98a9bb;
-            font-size: 0.9rem;
-            border-left: 3px solid #f5b042;
-            padding-left: 1rem;
+            color: var(--cinza-claro);
+            font-size: 0.95rem;
+            border-left: 4px solid var(--verde);
+            padding-left: 1.2rem;
             margin-bottom: 1.8rem;
             margin-top: 0.2rem;
+            font-weight: 400;
         }
 
         .content-card p {
-            line-height: 1.8;
-            color: #cfdbe6;
-            margin-bottom: 1.2rem;
+            line-height: 1.9;
+            color: #d6e3f0;
+            margin-bottom: 1.3rem;
             font-size: 1rem;
         }
 
@@ -210,10 +217,11 @@
         }
 
         .content-card ul li {
-            padding: 0.7rem 0 0.7rem 1.8rem;
+            padding: 0.8rem 0 0.8rem 2rem;
             position: relative;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            color: #d5dfe8;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #dfeaf5;
+            font-weight: 400;
         }
 
         .content-card ul li:last-child {
@@ -223,25 +231,34 @@
         .content-card ul li i {
             position: absolute;
             left: 0;
-            top: 0.8rem;
-            color: #f5b042;
-            font-size: 0.9rem;
+            top: 0.9rem;
+            color: var(--amarelo);
+            font-size: 1rem;
+            width: 1.2rem;
+            text-align: center;
         }
 
+        /* selos de época */
         .timeline-badge {
             display: inline-block;
-            background: rgba(245, 176, 66, 0.15);
-            color: #f5b042;
-            padding: 0.2rem 1rem;
-            border-radius: 20px;
+            background: rgba(0, 151, 57, 0.15);
+            color: var(--amarelo);
+            padding: 0.2rem 1.4rem;
+            border-radius: 30px;
             font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            border: 1px solid rgba(245, 176, 66, 0.2);
-            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            border: 1px solid rgba(245, 200, 66, 0.25);
+            margin-bottom: 1.2rem;
+            text-transform: uppercase;
         }
 
-        /* --- Página de Créditos (especial) --- */
+        .timeline-badge i {
+            margin-right: 6px;
+            color: var(--verde);
+        }
+
+        /* ===== PÁGINA DE CRÉDITOS ===== */
         .credits-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
@@ -250,71 +267,75 @@
         }
 
         .credit-item {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 20px;
             padding: 1.8rem 1rem;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: 0.3s;
+            transition: 0.3s ease;
             backdrop-filter: blur(4px);
         }
 
         .credit-item:hover {
-            transform: translateY(-6px);
-            border-color: rgba(245, 176, 66, 0.3);
-            box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.5);
+            transform: translateY(-8px);
+            border-color: var(--amarelo);
+            box-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.6);
+            background: rgba(245, 200, 66, 0.05);
         }
 
         .credit-item i {
-            font-size: 2.5rem;
-            color: #f5b042;
-            margin-bottom: 0.8rem;
+            font-size: 2.8rem;
+            color: var(--amarelo);
+            margin-bottom: 0.6rem;
             display: block;
         }
 
         .credit-item h3 {
             font-size: 1.1rem;
             font-weight: 600;
-            color: #f0f4fa;
+            color: var(--branco);
         }
 
         .credit-item p {
             font-size: 0.8rem;
-            color: #8899aa;
+            color: #8aa4c0;
             margin: 0;
         }
 
-        /* --- Rodapé com navegação por etapas --- */
+        /* ===== RODAPÉ COM NAVEGAÇÃO ===== */
         .footer-nav {
             position: relative;
             z-index: 10;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0.8rem 0.5rem 0.2rem 0.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-            margin-top: 0.5rem;
+            padding: 0.6rem 0.5rem 0.2rem 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            margin-top: 0.3rem;
         }
 
         .step-indicators {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.6rem;
             align-items: center;
         }
 
         .dot {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
-            background: #2a3548;
-            transition: 0.3s;
+            background: #2a4058;
+            transition: 0.3s ease;
             cursor: pointer;
+            border: 1px solid transparent;
         }
 
         .dot.active {
-            background: #f5b042;
-            width: 24px;
-            border-radius: 4px;
+            background: var(--amarelo);
+            width: 28px;
+            border-radius: 6px;
+            border-color: var(--amarelo);
+            box-shadow: 0 0 16px rgba(245, 200, 66, 0.25);
         }
 
         .nav-arrows {
@@ -323,69 +344,74 @@
         }
 
         .nav-arrows button {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #b0c0d0;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--cinza-claro);
             width: 38px;
             height: 38px;
             border-radius: 50%;
             font-size: 1rem;
             cursor: pointer;
-            transition: 0.3s;
+            transition: 0.25s ease;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .nav-arrows button:hover {
-            background: rgba(245, 176, 66, 0.15);
-            border-color: #f5b042;
-            color: #f5b042;
+            background: var(--amarelo);
+            border-color: var(--amarelo);
+            color: var(--azul-escuro);
+            box-shadow: 0 4px 16px rgba(245, 200, 66, 0.25);
         }
 
         .page-counter {
-            font-size: 0.8rem;
-            color: #6a7a8a;
-            font-weight: 500;
+            font-size: 0.85rem;
+            color: #8aa4c0;
+            font-weight: 600;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* --- Responsivo --- */
-        @media (max-width: 700px) {
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 750px) {
             nav {
-                padding: 0.6rem 1rem;
+                padding: 0.5rem 1rem;
             }
             .nav-brand {
                 font-size: 0.95rem;
             }
             .nav-btn {
-                padding: 0.3rem 0.6rem;
+                padding: 0.3rem 0.7rem;
                 font-size: 0.7rem;
             }
             .main-container {
-                padding: 1rem 1rem 0.5rem 1rem;
+                padding: 0.8rem 0.8rem 0.2rem 0.8rem;
             }
             .content-card {
                 padding: 1.8rem 1.2rem;
-                border-radius: 16px;
+                border-radius: 20px;
             }
             .content-card h1 {
-                font-size: 1.6rem;
+                font-size: 1.7rem;
             }
             .credits-grid {
                 grid-template-columns: 1fr 1fr;
-                gap: 1rem;
+                gap: 0.8rem;
             }
             .credit-item {
-                padding: 1.2rem 0.5rem;
+                padding: 1rem 0.3rem;
             }
             .footer-nav {
                 flex-wrap: wrap;
-                gap: 0.5rem;
+                gap: 0.4rem;
                 justify-content: center;
             }
         }
 
-        @media (max-width: 450px) {
+        @media (max-width: 480px) {
             .nav-links {
                 gap: 0.1rem;
             }
@@ -399,37 +425,41 @@
             .credits-grid {
                 grid-template-columns: 1fr;
             }
+            .content-card ul li {
+                padding-left: 1.6rem;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Navegação Superior -->
+    <!-- NAVEGAÇÃO SUPERIOR -->
     <nav>
         <div class="nav-brand">
-            <i class="fas fa-industry"></i> Evolução Industrial
+            <i class="fas fa-industry"></i> Indústria Brasil
         </div>
         <div class="nav-links" id="navLinks">
             <button class="nav-btn active" data-page="1">Créditos</button>
-            <button class="nav-btn" data-page="2">Gênese</button>
-            <button class="nav-btn" data-page="3">Era de Ouro</button>
-            <button class="nav-btn" data-page="4">Crise</button>
-            <button class="nav-btn" data-page="5">Atual</button>
+            <button class="nav-btn" data-page="2">1808-1930</button>
+            <button class="nav-btn" data-page="3">1930-1980</button>
+            <button class="nav-btn" data-page="4">1980-2000</button>
+            <button class="nav-btn" data-page="5">Séc. XXI</button>
             <button class="nav-btn" data-page="6">Futuro</button>
         </div>
     </nav>
 
-    <!-- Container Principal -->
+    <!-- CONTEÚDO PRINCIPAL -->
     <div class="main-container">
         <div class="pages-wrapper">
 
             <!-- PÁGINA 1: CRÉDITOS -->
             <div class="page active" id="page-1">
                 <div class="content-card" style="text-align: center;">
-                    <i class="fas fa-users" style="font-size: 3rem; color: #f5b042; margin-bottom: 0.5rem;"></i>
-                    <h1>Créditos</h1>
-                    <p style="color: #98a9bb; margin-bottom: 0.5rem;">Equipe responsável pelo conteúdo</p>
-                    <div style="width: 60px; height: 3px; background: #f5b042; margin: 0.5rem auto 1.5rem auto; border-radius: 4px;"></div>
+                    <i class="fas fa-flag" style="font-size: 3.2rem; color: var(--verde); background: var(--amarelo); padding: 12px; border-radius: 60px; margin-bottom: 1rem;"></i>
+                    <h1>Equipe de Criação</h1>
+                    <p style="color: var(--cinza-claro); margin-bottom: 0.5rem;">Conteúdo e pesquisa sobre a trajetória industrial do Brasil</p>
+                    <div style="width: 70px; height: 3px; background: var(--amarelo); margin: 0.8rem auto 1.8rem auto; border-radius: 4px;"></div>
 
                     <div class="credits-grid">
                         <div class="credit-item">
@@ -453,8 +483,8 @@
                             <p>Design & Interatividade</p>
                         </div>
                     </div>
-                    <p style="margin-top: 2rem; font-size: 0.85rem; color: #6a7a8a;">
-                        <i class="fas fa-arrow-right" style="color: #f5b042;"></i> Navegue pelos períodos históricos usando os botões acima ou as setas abaixo.
+                    <p style="margin-top: 2rem; font-size: 0.9rem; color: #6a8aaa;">
+                        <i class="fas fa-arrow-right" style="color: var(--amarelo);"></i> Use as setas ou os botões para explorar os períodos históricos.
                     </p>
                 </div>
             </div>
@@ -464,7 +494,7 @@
                 <div class="content-card">
                     <span class="timeline-badge"><i class="far fa-clock"></i> 1808 – 1930</span>
                     <h1>A Gênese Tardia</h1>
-                    <div class="subtitle">Do período colonial às primeiras manufaturas</div>
+                    <div class="subtitle">Da colônia proibida às primeiras manufaturas</div>
                     <p>Até 1808, a Coroa Portuguesa <strong>proibia manufaturas</strong> no Brasil para evitar concorrência com o Reino. A economia era exclusivamente agroexportadora (açúcar, ouro e café).</p>
                     <ul>
                         <li><i class="fas fa-crown"></i> <strong>1808</strong> – Com a chegada da Família Real, D. João VI revoga a proibição, permitindo as primeiras fábricas têxteis e de alimentos.</li>
@@ -515,18 +545,4 @@
                     <div class="subtitle">Indústria 4.0, inovação e competitividade</div>
                     <p>O século XXI trouxe novas políticas industriais, mas o parque fabril brasileiro ainda busca se reposicionar no cenário global.</p>
                     <ul>
-                        <li><i class="fas fa-rotate"></i> <strong>Novas políticas</strong> – Programas como "Nova Indústria Brasil" tentam estimular setores estratégicos e a inovação tecnológica.</li>
-                        <li><i class="fas fa-microchip"></i> <strong>Indústria 4.0</strong> – Automação, IoT e inteligência artificial são desafios urgentes para aumentar a produtividade.</li>
-                        <li><i class="fas fa-balance-scale"></i> <strong>Custo Brasil</strong> – A infraestrutura precária, a burocracia e a carga tributária ainda são entraves para a competitividade.</li>
-                        <li><i class="fas fa-leaf"></i> <strong>Sustentabilidade</strong> – A transição verde e a descarbonização abrem novas oportunidades para a indústria nacional.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- PÁGINA 6: CONCLUSÃO E FUTURO -->
-            <div class="page" id="page-6">
-                <div class="content-card">
-                    <span class="timeline-badge"><i class="fas fa-rocket"></i> Perspectivas</span>
-                    <h1>Panorama Final</h1>
-                    <div class="subtitle">Onde estamos e para onde vamos</div>
-                    <p>A indústria brasileira nasceu tardiamente, cresceu com forte intervenção e
+     
