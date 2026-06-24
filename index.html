@@ -462,7 +462,7 @@
             font-size: 0.95rem;
         }
 
-        /* ===== FUTURO ===== */
+        /* ===== FUTURO 2050 (ATUALIZADO) ===== */
         #future {
             background: var(--primary-dark);
             color: #e2e8f0;
@@ -483,37 +483,45 @@
         .future-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            gap: 30px;
             margin-top: 30px;
         }
 
         .future-card {
             background: rgba(255, 255, 255, 0.05);
-            padding: 35px;
+            padding: 30px 28px;
             border-radius: var(--border-radius);
             border: 1px solid rgba(255, 255, 255, 0.06);
             transition: 0.3s;
             backdrop-filter: blur(4px);
+            display: flex;
+            flex-direction: column;
         }
 
         .future-card:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.09);
             border-color: var(--accent-gold);
+            transform: translateY(-4px);
         }
 
         .future-card h4 {
-            font-size: 1.5rem;
-            margin-bottom: 16px;
-            color: var(--accent-gold);
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .future-card p {
             color: #cbd5e1;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
         }
 
         .future-card ul {
             list-style: none;
-            margin-top: 16px;
+            margin-top: 4px;
+            flex-grow: 1;
         }
 
         .future-card ul li {
@@ -521,6 +529,7 @@
             padding-left: 28px;
             position: relative;
             color: #e2e8f0;
+            font-size: 0.95rem;
         }
 
         .future-card ul li::before {
@@ -533,17 +542,24 @@
             color: var(--accent-green);
         }
 
-        .future-card.danger ul li::before {
-            content: '\f071';
-            color: #f87171;
-        }
+        /* Variações de cores para os cards de 2050 */
+        .future-card.energy { border-top: 4px solid #60A5FA; }
+        .future-card.energy h4 { color: #60A5FA; }
+        .future-card.energy ul li::before { color: #60A5FA; }
 
-        .future-card.danger {
-            border-left: 4px solid #f87171;
-        }
+        .future-card.bio { border-top: 4px solid var(--accent-green); }
+        .future-card.bio h4 { color: var(--accent-green); }
+        .future-card.bio ul li::before { color: var(--accent-green); }
 
-        .future-card.optimistic {
-            border-left: 4px solid var(--accent-green);
+        .future-card.tech { border-top: 4px solid var(--accent-orange); }
+        .future-card.tech h4 { color: var(--accent-orange); }
+        .future-card.tech ul li::before { color: var(--accent-orange); }
+
+        .future-card.challenge { border-top: 4px solid #F87171; }
+        .future-card.challenge h4 { color: #F87171; }
+        .future-card.challenge ul li::before { 
+            content: '\f071'; 
+            color: #F87171;
         }
 
         /* ===== FOOTER ===== */
@@ -600,7 +616,7 @@
             }
 
             .future-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
             }
 
             .section-title {
@@ -635,6 +651,10 @@
             }
 
             .present-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .future-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -693,7 +713,7 @@
                 <li><a href="#intro">1. O que é</a></li>
                 <li><a href="#past">2-3. Passado</a></li>
                 <li><a href="#present">4. Presente</a></li>
-                <li><a href="#future">5. Futuro</a></li>
+                <li><a href="#future">5. Futuro 2050</a></li>
             </ul>
             <div class="hamburger" id="hamburger">
                 <i class="fas fa-bars"></i>
@@ -713,7 +733,7 @@
                 <p>Do alvará de 1785 à Indústria 4.0: como o Brasil construiu (e reconstruiu) seu parque industrial ao longo dos séculos.</p>
                 <div style="margin-top:30px; display:flex; gap:16px; flex-wrap:wrap; justify-content:center;">
                     <a href="#intro" style="background:var(--accent-gold); color:#0B1A2E; padding:12px 32px; border-radius:40px; font-weight:700; text-decoration:none; transition:0.3s;">Explorar</a>
-                    <a href="#future" style="background:transparent; color:#fff; padding:12px 32px; border-radius:40px; font-weight:600; text-decoration:none; border:2px solid rgba(255,255,255,0.2); transition:0.3s;">Ver futuro</a>
+                    <a href="#future" style="background:transparent; color:#fff; padding:12px 32px; border-radius:40px; font-weight:600; text-decoration:none; border:2px solid rgba(255,255,255,0.2); transition:0.3s;">Ver futuro 2050</a>
                 </div>
             </div>
             <div class="hero-image">
@@ -815,56 +835,67 @@
         </div>
     </section>
 
-    <!-- ===== 5) FUTURO (teoria) ===== -->
+    <!-- ===== 5) FUTURO 2050 (ATUALIZADO) ===== -->
     <section id="future">
         <div class="container">
             <div class="text-center reveal">
                 <span style="color:var(--accent-gold); font-weight:700; letter-spacing:1px;">TÓPICO 5</span>
-                <h2 class="section-title">Futuro da Indústria (Teoria)</h2>
-                <p class="section-subtitle">O amanhã industrial brasileiro depende da integração tecnológica, sustentabilidade e da capacidade de superar gargalos históricos.</p>
+                <h2 class="section-title">O que é possível em 2050?</h2>
+                <p class="section-subtitle">Projeções realistas para o Brasil, considerando a transição energética, o envelhecimento populacional, a bioeconomia e os gargalos históricos que precisarão ser superados.</p>
             </div>
 
             <div class="future-grid">
-                <!-- Cenário Otimista -->
-                <div class="future-card optimistic reveal">
-                    <h4><i class="fas fa-rocket" style="margin-right:12px; color:var(--accent-green);"></i>Cenário Otimista</h4>
-                    <p>O Brasil se insere nas cadeias globais de valor, moderniza seu parque industrial e se torna um polo de inovação.</p>
+                <!-- Card 1: Energia Verde -->
+                <div class="future-card energy reveal">
+                    <h4><i class="fas fa-wind"></i> Energia Verde & Hidrogênio</h4>
+                    <p>O Brasil se consolidará como um dos maiores produtores e exportadores de <strong>hidrogênio verde (H2V)</strong> do mundo, aproveitando o potencial eólico e solar do Nordeste.</p>
                     <ul>
-                        <li><strong>Agrotecnologia</strong> e energia limpa como motores.</li>
-                        <li>Manufatura avançada com alto valor agregado.</li>
-                        <li>Adoção massiva da Indústria 4.0 e educação tecnológica.</li>
+                        <li>Siderurgia e indústria química pesada descarbonizadas com H2V.</li>
+                        <li>Nova cadeia industrial de eletrolisadores e turbinas eólicas offshore.</li>
+                        <li>Matriz elétrica com mais de 90% de fontes renováveis.</li>
                     </ul>
                 </div>
 
-                <!-- Cenário Pessimista -->
-                <div class="future-card danger reveal">
-                    <h4><i class="fas fa-triangle-exclamation" style="margin-right:12px; color:#f87171;"></i>Cenário Pessimista</h4>
-                    <p>A indústria perde espaço para o setor de serviços e para a importação de manufaturados, aprofundando a desindustrialização precoce.</p>
+                <!-- Card 2: Bioeconomia e Agro -->
+                <div class="future-card bio reveal">
+                    <h4><i class="fas fa-seedling"></i> Bioeconomia & Agro 4.0</h4>
+                    <p>O agro deixará de ser apenas commodities e se tornará uma indústria de <strong>bioprodutos</strong> e fármacos, com rastreabilidade total via blockchain.</p>
                     <ul>
-                        <li>Baixo investimento em infraestrutura digital.</li>
-                        <li>Mão de obra desqualificada e fuga de cérebros.</li>
-                        <li>Dependência tecnológica externa.</li>
+                        <li>Fazendas totalmente autônomas com tratores elétricos e IA.</li>
+                        <li>Indústria farmacêutica e de cosméticos usando ativos da Amazônia de forma sustentável.</li>
+                        <li>Produção em larga escala de SAF (combustível sustentável de aviação) a partir de biomassa.</li>
                     </ul>
                 </div>
 
-                <!-- Tendências gerais -->
-                <div class="future-card" style="grid-column: 1 / -1; background:rgba(255,255,255,0.03); border-left:4px solid var(--accent-orange);">
-                    <h4 style="color:var(--accent-orange);"><i class="fas fa-chart-simple" style="margin-right:12px;"></i>Tendências Transversais</h4>
-                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:10px;">
-                        <div>
-                            <p><strong><i class="fas fa-cloud" style="color:var(--accent-gold); margin-right:8px;"></i> Integração digital</strong><br />Máquinas "conversando" entre si na cadeia produtiva, aumentando eficiência e customização.</p>
-                        </div>
-                        <div>
-                            <p><strong><i class="fas fa-recycle" style="color:var(--accent-gold); margin-right:8px;"></i> Sustentabilidade</strong><br />Pressão de consumidores e regulamentações ambientais forçam a adoção de práticas verdes.</p>
-                        </div>
-                    </div>
+                <!-- Card 3: Manufatura e Demografia -->
+                <div class="future-card tech reveal">
+                    <h4><i class="fas fa-robot"></i> Manufatura & Choque Demográfico</h4>
+                    <p>Com o envelhecimento acelerado da população (mais idosos que jovens em 2050), a automação deixará de ser luxo e se tornará <strong>necessidade operacional básica</strong>.</p>
+                    <ul>
+                        <li>Fábricas inteligentes integradas por redes 6G e gêmeos digitais.</li>
+                        <li>Robótica colaborativa para suprir a escassez de mão de obra industrial.</li>
+                        <li>Educação técnica voltada massivamente para STEM e IA.</li>
+                    </ul>
+                </div>
+
+                <!-- Card 4: Gargalos Estruturais -->
+                <div class="future-card challenge reveal">
+                    <h4><i class="fas fa-triangle-exclamation"></i> Desafios Críticos</h4>
+                    <p>Se não houver investimento maciço, a infraestrutura logística e a desigualdade regional podem travar o avanço.</p>
+                    <ul>
+                        <li>Ferrovias e hidrovias subdimensionadas encarecendo o escoamento.</li>
+                        <li>Conectividade digital insuficiente no Norte e Nordeste, ampliando o abismo regional.</li>
+                        <li>Déficit de engenheiros e técnicos especializados em tecnologias verdes.</li>
+                        <li>Eventos climáticos extremos forçando adaptação urgente das cadeias produtivas.</li>
+                    </ul>
                 </div>
             </div>
 
-            <div style="margin-top:40px; padding:20px; background:rgba(0,0,0,0.2); border-radius:12px; text-align:center; border:1px dashed rgba(255,255,255,0.1);">
-                <p style="color:#94a3b8; font-style:italic;">
-                    <i class="fas fa-quote-left" style="color:var(--accent-gold); margin-right:8px;"></i>
-                    O futuro dependerá da capacidade do Brasil de abraçar a transformação digital e a sustentabilidade como eixos centrais, superando defasagens históricas.
+            <!-- Bloco de síntese 2050 -->
+            <div style="margin-top:40px; padding:28px; background:rgba(255,255,255,0.06); border-radius:16px; border:1px solid rgba(255,255,255,0.08); text-align:center; backdrop-filter:blur(4px);">
+                <p style="color:#e2e8f0; font-size:1.1rem; font-weight:300;">
+                    <i class="fas fa-bullseye" style="color:var(--accent-gold); margin-right:12px; font-size:1.4rem;"></i>
+                    Em 2050, o Brasil terá a oportunidade de ser uma <strong style="color:var(--accent-gold);">potência ambiental-industrial</strong>, mas o sucesso dependerá de políticas de longo prazo que comecem agora, especialmente em educação, infraestrutura e inovação.
                 </p>
             </div>
         </div>
@@ -874,10 +905,10 @@
     <footer>
         <div class="container">
             <p style="margin-bottom:8px;">
-                <i class="fas fa-industry"></i> Revolução Industrial no Brasil &bull; 2026
+                <i class="fas fa-industry"></i> Revolução Industrial no Brasil &bull; Projeções para 2050
             </p>
             <p style="font-size:0.85rem; color:#64748b;">
-                Conteúdo histórico e teórico baseado em pesquisas acadêmicas. 
+                Conteúdo histórico e teórico baseado em pesquisas acadêmicas e tendências globais.
                 <i class="fas fa-code" style="margin:0 6px;"></i> Desenvolvido com HTML, CSS &amp; JS.
             </p>
         </div>
@@ -893,7 +924,6 @@
             navLinks.classList.toggle('open');
         });
 
-        // Fechar menu ao clicar em um link (mobile)
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('open');
@@ -916,7 +946,6 @@
 
         reveals.forEach(el => observer.observe(el));
 
-        // Ativa imediatamente os que já estão visíveis ao carregar
         window.addEventListener('load', () => {
             reveals.forEach(el => {
                 const rect = el.getBoundingClientRect();
