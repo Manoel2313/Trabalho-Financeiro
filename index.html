@@ -1,960 +1,612 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Revolução Industrial no Brasil</title>
-    <!-- Google Fonts & Font Awesome -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <style>
-        /* ===== RESET & BASE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-dark: #0B1A2E;
-            --primary-mid: #1A3A5C;
-            --accent-gold: #E6B12E;
-            --accent-green: #2A9D8F;
-            --accent-orange: #F4A261;
-            --text-light: #F0F4F8;
-            --text-dark: #1A1A2E;
-            --gray-bg: #F4F6F9;
-            --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            --border-radius: 16px;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--gray-bg);
-            color: var(--text-dark);
-            line-height: 1.7;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* ===== NAVBAR ===== */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(11, 26, 46, 0.92);
-            backdrop-filter: blur(8px);
-            z-index: 1000;
-            padding: 12px 0;
-            border-bottom: 2px solid var(--accent-gold);
-            transition: 0.3s;
-        }
-
-        nav .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            color: var(--text-light);
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-        }
-
-        .logo i {
-            color: var(--accent-gold);
-            margin-right: 8px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 28px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: #cbd5e1;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: 0.3s;
-            position: relative;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0%;
-            height: 2px;
-            background: var(--accent-gold);
-            transition: 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #fff;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .hamburger {
-            display: none;
-            color: #fff;
-            font-size: 1.8rem;
-            cursor: pointer;
-        }
-
-        /* ===== HERO ===== */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(145deg, var(--primary-dark) 0%, #0d2847 100%);
-            position: relative;
-            overflow: hidden;
-            padding-top: 80px;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(230, 177, 46, 0.08) 0%, transparent 70%);
-            top: -10%;
-            right: -10%;
-            border-radius: 50%;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(42, 157, 143, 0.06) 0%, transparent 70%);
-            bottom: -5%;
-            left: -5%;
-            border-radius: 50%;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-
-        .hero-text h1 {
-            font-size: 3.8rem;
-            font-weight: 800;
-            color: #fff;
-            line-height: 1.1;
-            letter-spacing: -1px;
-        }
-
-        .hero-text h1 span {
-            color: var(--accent-gold);
-            border-bottom: 4px solid var(--accent-green);
-            display: inline-block;
-        }
-
-        .hero-text p {
-            color: #94a3b8;
-            font-size: 1.2rem;
-            margin-top: 20px;
-            max-width: 500px;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            background: rgba(230, 177, 46, 0.15);
-            color: var(--accent-gold);
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-top: 24px;
-            border: 1px solid rgba(230, 177, 46, 0.2);
-        }
-
-        .hero-image {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .hero-image .icon-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 30px;
-            border-radius: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(4px);
-        }
-
-        .hero-image .icon-grid i {
-            font-size: 3.5rem;
-            color: var(--accent-gold);
-            opacity: 0.8;
-            transition: 0.4s;
-        }
-
-        .hero-image .icon-grid i:hover {
-            opacity: 1;
-            transform: scale(1.1);
-            color: #fff;
-        }
-
-        .icon-grid .fa-gears {
-            color: var(--accent-green);
-        }
-        .icon-grid .fa-microchip {
-            color: var(--accent-orange);
-        }
-
-        /* ===== SECTIONS GERAIS ===== */
-        section {
-            padding: 100px 0;
-        }
-
-        .section-title {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 16px;
-            color: var(--primary-dark);
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 0;
-            width: 60%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-gold), var(--accent-green));
-            border-radius: 4px;
-        }
-
-        .section-subtitle {
-            font-size: 1.1rem;
-            color: #475569;
-            max-width: 700px;
-            margin-bottom: 40px;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .text-center .section-title::after {
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-        }
-
-        .text-center .section-subtitle {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* ===== INTRO ===== */
-        #intro {
-            background: #fff;
-        }
-
-        .intro-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .intro-text p {
-            font-size: 1.05rem;
-            color: #334155;
-        }
-
-        .intro-highlight {
-            background: var(--primary-dark);
-            padding: 30px;
-            border-radius: var(--border-radius);
-            color: #e2e8f0;
-            border-left: 6px solid var(--accent-gold);
-        }
-
-        .intro-highlight strong {
-            color: var(--accent-gold);
-        }
-
-        /* ===== PASSADO (TIMELINE) ===== */
-        #past {
-            background: var(--gray-bg);
-        }
-
-        .timeline {
-            position: relative;
-            padding-left: 40px;
-            margin-top: 40px;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 10px;
-            top: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--accent-gold), var(--accent-green));
-            border-radius: 4px;
-        }
-
-        .timeline-item {
-            background: #fff;
-            padding: 30px 35px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--card-shadow);
-            margin-bottom: 40px;
-            position: relative;
-            transition: 0.3s;
-            border: 1px solid rgba(0, 0, 0, 0.03);
-        }
-
-        .timeline-item:hover {
-            transform: translateX(6px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -34px;
-            top: 32px;
-            width: 18px;
-            height: 18px;
-            background: var(--accent-gold);
-            border-radius: 50%;
-            border: 4px solid #fff;
-            box-shadow: 0 0 0 3px var(--primary-dark);
-        }
-
-        .timeline-item:nth-child(2)::before {
-            background: var(--accent-green);
-        }
-
-        .timeline-item .date {
-            display: inline-block;
-            background: var(--primary-dark);
-            color: #fff;
-            padding: 4px 18px;
-            border-radius: 30px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-        }
-
-        .timeline-item h3 {
-            font-size: 1.6rem;
-            margin-bottom: 10px;
-            color: var(--primary-dark);
-        }
-
-        .timeline-item p {
-            color: #334155;
-        }
-
-        .timeline-item ul {
-            margin-top: 12px;
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .timeline-item ul li {
-            padding: 4px 0;
-            padding-left: 28px;
-            position: relative;
-        }
-
-        .timeline-item ul li::before {
-            content: '\f054';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            left: 0;
-            top: 4px;
-            color: var(--accent-gold);
-            font-size: 0.7rem;
-        }
-
-        /* ===== PRESENTE ===== */
-        #present {
-            background: #fff;
-        }
-
-        .present-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .card {
-            background: var(--gray-bg);
-            padding: 35px 25px;
-            border-radius: var(--border-radius);
-            transition: 0.4s;
-            border-bottom: 4px solid var(--accent-gold);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--card-shadow);
-        }
-
-        .card .icon {
-            font-size: 2.8rem;
-            color: var(--primary-mid);
-            margin-bottom: 16px;
-        }
-
-        .card.green {
-            border-bottom-color: var(--accent-green);
-        }
-        .card.orange {
-            border-bottom-color: var(--accent-orange);
-        }
-
-        .card h4 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: var(--primary-dark);
-        }
-
-        .card p {
-            color: #475569;
-            font-size: 0.95rem;
-        }
-
-        /* ===== FUTURO 2050 (ATUALIZADO) ===== */
-        #future {
-            background: var(--primary-dark);
-            color: #e2e8f0;
-        }
-
-        #future .section-title {
-            color: #fff;
-        }
-
-        #future .section-title::after {
-            background: linear-gradient(90deg, var(--accent-gold), var(--accent-orange));
-        }
-
-        #future .section-subtitle {
-            color: #94a3b8;
-        }
-
-        .future-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-top: 30px;
-        }
-
-        .future-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 30px 28px;
-            border-radius: var(--border-radius);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: 0.3s;
-            backdrop-filter: blur(4px);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .future-card:hover {
-            background: rgba(255, 255, 255, 0.09);
-            border-color: var(--accent-gold);
-            transform: translateY(-4px);
-        }
-
-        .future-card h4 {
-            font-size: 1.4rem;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .future-card p {
-            color: #cbd5e1;
-            font-size: 0.95rem;
-            margin-bottom: 12px;
-        }
-
-        .future-card ul {
-            list-style: none;
-            margin-top: 4px;
-            flex-grow: 1;
-        }
-
-        .future-card ul li {
-            padding: 6px 0;
-            padding-left: 28px;
-            position: relative;
-            color: #e2e8f0;
-            font-size: 0.95rem;
-        }
-
-        .future-card ul li::before {
-            content: '\f00c';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: absolute;
-            left: 0;
-            top: 6px;
-            color: var(--accent-green);
-        }
-
-        /* Variações de cores para os cards de 2050 */
-        .future-card.energy { border-top: 4px solid #60A5FA; }
-        .future-card.energy h4 { color: #60A5FA; }
-        .future-card.energy ul li::before { color: #60A5FA; }
-
-        .future-card.bio { border-top: 4px solid var(--accent-green); }
-        .future-card.bio h4 { color: var(--accent-green); }
-        .future-card.bio ul li::before { color: var(--accent-green); }
-
-        .future-card.tech { border-top: 4px solid var(--accent-orange); }
-        .future-card.tech h4 { color: var(--accent-orange); }
-        .future-card.tech ul li::before { color: var(--accent-orange); }
-
-        .future-card.challenge { border-top: 4px solid #F87171; }
-        .future-card.challenge h4 { color: #F87171; }
-        .future-card.challenge ul li::before { 
-            content: '\f071'; 
-            color: #F87171;
-        }
-
-        /* ===== FOOTER ===== */
-        footer {
-            background: #06101b;
-            color: #94a3b8;
-            padding: 40px 0;
-            text-align: center;
-            border-top: 2px solid var(--accent-gold);
-        }
-
-        footer i {
-            color: var(--accent-gold);
-        }
-
-        /* ===== ANIMAÇÕES (SCROLL REVEAL) ===== */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ===== RESPONSIVIDADE ===== */
-        @media (max-width: 992px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-text h1 {
-                font-size: 2.8rem;
-            }
-
-            .hero-text p {
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .hero-image .icon-grid {
-                margin-top: 20px;
-            }
-
-            .intro-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .present-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .future-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .section-title {
-                font-size: 2.2rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                background: var(--primary-dark);
-                position: absolute;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                padding: 30px;
-                gap: 20px;
-                border-bottom: 2px solid var(--accent-gold);
-            }
-
-            .nav-links.open {
-                display: flex;
-            }
-
-            .hamburger {
-                display: block;
-            }
-
-            .hero-text h1 {
-                font-size: 2.2rem;
-            }
-
-            .present-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .future-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .timeline {
-                padding-left: 20px;
-            }
-
-            .timeline::before {
-                left: 2px;
-            }
-
-            .timeline-item::before {
-                left: -26px;
-                width: 14px;
-                height: 14px;
-            }
-
-            .timeline-item {
-                padding: 20px;
-            }
-
-            .hero-image .icon-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-                padding: 15px;
-            }
-
-            .hero-image .icon-grid i {
-                font-size: 2.5rem;
-            }
-
-            section {
-                padding: 60px 0;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-text h1 {
-                font-size: 1.8rem;
-            }
-            .section-title {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bolsa, Ações e Dinheiro — Explicação Simples</title>
+<style>
+  :root{
+    --bg:#fafaf7;
+    --txt:#2a2a2a;
+    --muted:#6a6a6a;
+    --accent:#1a5490;
+    --accent2:#c0392b;
+    --box:#f0f4f8;
+    --box-border:#d0dae5;
+    --destaque:#fff8e1;
+    --destaque-border:#f0c040;
+    --radius:10px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:Georgia,'Times New Roman',serif;
+    background:var(--bg);
+    color:var(--txt);
+    line-height:1.75;
+    font-size:18px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---- CABEÇALHO ---- */
+  header{
+    background:var(--accent);
+    color:#fff;
+    padding:50px 20px 40px;
+    text-align:center;
+  }
+  header h1{
+    font-size:clamp(1.6rem,4.5vw,2.4rem);
+    font-weight:700;
+    margin-bottom:12px;
+    line-height:1.25;
+    letter-spacing:-.5px;
+  }
+  header p{
+    color:#c8d8e8;
+    font-size:1rem;
+    max-width:600px;
+    margin:0 auto;
+    font-style:italic;
+  }
+
+  /* ---- NAVEGAÇÃO ---- */
+  nav{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:rgba(250,250,247,.96);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid #e0ddd5;
+    padding:12px 20px;
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  nav a{
+    color:var(--muted);
+    text-decoration:none;
+    font-size:.85rem;
+    font-family:'Segoe UI',system-ui,sans-serif;
+    padding:6px 14px;
+    border-radius:999px;
+    transition:.2s;
+    white-space:nowrap;
+  }
+  nav a:hover{
+    color:var(--accent);
+    background:var(--box);
+  }
+
+  /* ---- CONTEÚDO ---- */
+  main{
+    max-width:720px;
+    margin:0 auto;
+    padding:50px 24px 100px;
+  }
+
+  section{
+    margin-bottom:70px;
+    scroll-margin-top:80px;
+  }
+
+  h2{
+    font-size:clamp(1.3rem,3.5vw,1.7rem);
+    color:var(--accent);
+    margin-bottom:8px;
+    line-height:1.3;
+    font-weight:700;
+    letter-spacing:-.3px;
+  }
+  h2::before{
+    content:"";
+    display:block;
+    width:48px;
+    height:4px;
+    background:var(--accent2);
+    border-radius:2px;
+    margin-bottom:14px;
+  }
+
+  .sub{
+    color:var(--muted);
+    font-style:italic;
+    margin-bottom:24px;
+    font-size:.95rem;
+  }
+
+  h3{
+    font-size:1.15rem;
+    color:var(--txt);
+    margin:28px 0 10px;
+    font-weight:700;
+  }
+
+  p{
+    margin-bottom:16px;
+    text-align:justify;
+    hyphens:auto;
+  }
+
+  p b{color:var(--accent);}
+
+  /* ---- LISTAS ---- */
+  ul.lista-simples{
+    list-style:none;
+    margin:16px 0;
+    padding:0;
+  }
+  ul.lista-simples li{
+    padding:10px 0 10px 28px;
+    position:relative;
+    border-bottom:1px solid #ebe8e0;
+    font-size:1rem;
+  }
+  ul.lista-simples li:last-child{border-bottom:none;}
+  ul.lista-simples li::before{
+    content:"→";
+    position:absolute;
+    left:0;
+    color:var(--accent2);
+    font-weight:700;
+  }
+
+  /* ---- CAIXAS ---- */
+  .caixa{
+    background:var(--box);
+    border-left:4px solid var(--accent);
+    border-radius:6px;
+    padding:18px 22px;
+    margin:20px 0;
+    font-size:.98rem;
+  }
+  .caixa p{margin-bottom:10px;text-align:left;}
+  .caixa p:last-child{margin-bottom:0;}
+  .caixa b{color:var(--accent);}
+
+  .caixa-analogia{
+    background:var(--destaque);
+    border-left:4px solid var(--destaque-border);
+    border-radius:6px;
+    padding:18px 22px;
+    margin:20px 0;
+    font-size:.98rem;
+  }
+  .caixa-analogia .rotulo{
+    display:inline-block;
+    font-family:'Segoe UI',system-ui,sans-serif;
+    font-size:.7rem;
+    font-weight:700;
+    letter-spacing:1.5px;
+    color:#8a6a00;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  .caixa-analogia p{margin-bottom:10px;text-align:left;}
+  .caixa-analogia p:last-child{margin-bottom:0;}
+
+  .caixa-alerta{
+    background:#fdf0ee;
+    border-left:4px solid var(--accent2);
+    border-radius:6px;
+    padding:18px 22px;
+    margin:20px 0;
+    font-size:.98rem;
+  }
+  .caixa-alerta p{margin:0;text-align:left;}
+
+  /* ---- BLOCOS DE DEFINIÇÃO ---- */
+  .definicao{
+    background:#fff;
+    border:1px solid var(--box-border);
+    border-radius:var(--radius);
+    padding:20px 24px;
+    margin:16px 0;
+  }
+  .definicao .termo{
+    font-family:'Segoe UI',system-ui,sans-serif;
+    font-size:.8rem;
+    font-weight:700;
+    letter-spacing:1.5px;
+    color:var(--accent2);
+    text-transform:uppercase;
+    margin-bottom:6px;
+  }
+  .definicao p{
+    margin:0;
+    font-size:.98rem;
+    text-align:left;
+  }
+
+  /* ---- LINHA DO TEMPO ---- */
+  .tempo{
+    position:relative;
+    padding-left:32px;
+    margin:24px 0;
+  }
+  .tempo::before{
+    content:"";
+    position:absolute;
+    left:8px;
+    top:8px;
+    bottom:8px;
+    width:2px;
+    background:var(--box-border);
+  }
+  .tempo-item{
+    position:relative;
+    margin-bottom:26px;
+  }
+  .tempo-item::before{
+    content:"";
+    position:absolute;
+    left:-28px;
+    top:8px;
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:var(--accent);
+    border:3px solid var(--bg);
+  }
+  .tempo-item .quando{
+    font-family:'Segoe UI',system-ui,sans-serif;
+    font-size:.78rem;
+    font-weight:700;
+    letter-spacing:1px;
+    color:var(--accent2);
+    text-transform:uppercase;
+  }
+  .tempo-item h3{
+    margin:4px 0 6px;
+    font-size:1.05rem;
+  }
+  .tempo-item p{
+    margin:0;
+    font-size:.95rem;
+    text-align:left;
+  }
+
+  /* ---- EXEMPLO NUMERADO ---- */
+  .passos{
+    counter-reset:passo;
+    margin:20px 0;
+  }
+  .passos .passo{
+    display:flex;
+    gap:16px;
+    padding:14px 0;
+    border-bottom:1px solid #ebe8e0;
+    align-items:flex-start;
+  }
+  .passos .passo:last-child{border-bottom:none;}
+  .passos .passo::before{
+    counter-increment:passo;
+    content:counter(passo);
+    background:var(--accent);
+    color:#fff;
+    width:30px;
+    height:30px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:700;
+    font-family:'Segoe UI',system-ui,sans-serif;
+    font-size:.9rem;
+    flex-shrink:0;
+  }
+  .passos .passo .txt{
+    font-size:.98rem;
+    padding-top:3px;
+  }
+
+  /* ---- RESUMO FINAL ---- */
+  .resumo{
+    background:var(--accent);
+    color:#fff;
+    border-radius:var(--radius);
+    padding:32px 28px;
+    margin:24px 0;
+  }
+  .resumo h3{
+    color:#fff;
+    margin-top:0;
+    font-size:1.2rem;
+    margin-bottom:16px;
+  }
+  .resumo ul{
+    list-style:none;
+    padding:0;
+  }
+  .resumo li{
+    padding:10px 0 10px 26px;
+    position:relative;
+    border-bottom:1px solid rgba(255,255,255,.15);
+    font-size:.97rem;
+    line-height:1.5;
+  }
+  .resumo li:last-child{border-bottom:none;}
+  .resumo li::before{
+    content:"✓";
+    position:absolute;
+    left:0;
+    color:#a8d0f0;
+    font-weight:700;
+  }
+  .resumo li b{color:#fff;}
+
+  /* ---- DIVISOR ---- */
+  .divisor{
+    text-align:center;
+    color:#c8c4b8;
+    margin:50px 0;
+    font-size:1.2rem;
+    letter-spacing:8px;
+  }
+
+  /* ---- RODAPÉ ---- */
+  footer{
+    text-align:center;
+    padding:40px 20px;
+    border-top:1px solid #e0ddd5;
+    color:var(--muted);
+    font-size:.85rem;
+    font-family:'Segoe UI',system-ui,sans-serif;
+  }
+
+  /* ---- BOTÃO TOPO ---- */
+  #topo{
+    position:fixed;
+    bottom:24px;
+    right:24px;
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    font-size:1.2rem;
+    cursor:pointer;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 16px rgba(26,84,144,.3);
+    z-index:99;
+    transition:.2s;
+  }
+  #topo:hover{transform:translateY(-3px);}
+
+  @media(max-width:600px){
+    body{font-size:17px;}
+    main{padding:36px 20px 80px;}
+    section{margin-bottom:56px;}
+    header{padding:36px 16px 30px;}
+    nav{padding:10px 12px;gap:4px;}
+    nav a{font-size:.78rem;padding:5px 10px;}
+    .caixa,.caixa-analogia,.caixa-alerta{padding:16px 18px;}
+    .resumo{padding:26px 22px;}
+  }
+</style>
 </head>
 <body>
 
-    <!-- ===== NAVEGAÇÃO ===== -->
-    <nav>
-        <div class="container">
-            <div class="logo">
-                <i class="fas fa-industry"></i> Brasil 4.0
-            </div>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="#intro">1. O que é</a></li>
-                <li><a href="#past">2-3. Passado</a></li>
-                <li><a href="#present">4. Presente</a></li>
-                <li><a href="#future">5. Futuro 2050</a></li>
-            </ul>
-            <div class="hamburger" id="hamburger">
-                <i class="fas fa-bars"></i>
-            </div>
-        </div>
-    </nav>
+<header>
+  <h1>Bolsa, Ações e Dinheiro</h1>
+  <p>Uma explicação simples, direta e em ordem — pra quem quer entender de verdade.</p>
+</header>
 
-    <!-- ===== HERO ===== -->
-    <header class="hero">
-        <div class="container hero-content">
-            <div class="hero-text">
-                <span class="hero-badge"><i class="fas fa-arrow-right" style="margin-right:8px;"></i> REVOLUÇÃO INDUSTRIAL</span>
-                <h1>
-                    A trajetória da <br />
-                    indústria <span>brasileira</span>
-                </h1>
-                <p>Do alvará de 1785 à Indústria 4.0: como o Brasil construiu (e reconstruiu) seu parque industrial ao longo dos séculos.</p>
-                <div style="margin-top:30px; display:flex; gap:16px; flex-wrap:wrap; justify-content:center;">
-                    <a href="#intro" style="background:var(--accent-gold); color:#0B1A2E; padding:12px 32px; border-radius:40px; font-weight:700; text-decoration:none; transition:0.3s;">Explorar</a>
-                    <a href="#future" style="background:transparent; color:#fff; padding:12px 32px; border-radius:40px; font-weight:600; text-decoration:none; border:2px solid rgba(255,255,255,0.2); transition:0.3s;">Ver futuro 2050</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <div class="icon-grid">
-                    <i class="fas fa-cogs"></i>
-                    <i class="fas fa-gears"></i>
-                    <i class="fas fa-microchip"></i>
-                    <i class="fas fa-robot"></i>
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <i class="fas fa-recycle"></i>
-                    <i class="fas fa-chart-line"></i>
-                    <i class="fas fa-bolt"></i>
-                    <i class="fas fa-globe-americas"></i>
-                </div>
-            </div>
-        </div>
-    </header>
+<nav>
+  <a href="#oque">O que é</a>
+  <a href="#importancia">Importância</a>
+  <a href="#exemplo">Exemplo</a>
+  <a href="#origem">Origem</a>
+  <a href="#resumo">Resumo</a>
+</nav>
 
-    <!-- ===== 1) O QUE É ===== -->
-    <section id="intro">
-        <div class="container">
-            <div class="intro-grid">
-                <div class="intro-text reveal">
-                    <span style="color:var(--accent-gold); font-weight:700; letter-spacing:1px;">TÓPICO 1</span>
-                    <h2 class="section-title" style="margin-top:4px;">O que é a <br />Revolução Industrial?</h2>
-                    <p>A Revolução Industrial é o processo de transformação econômica e social que marcou a transição de uma economia agrária e artesanal para uma economia dominada pela indústria e produção mecanizada.</p>
-                    <p style="margin-top:12px;"><strong>Ondas tecnológicas:</strong> 1ª (vapor) → 2ª (eletricidade) → 3ª (automação) → 4ª (digital/físico).</p>
-                    <p style="margin-top:12px;">No Brasil, esse processo foi <strong>tardio</strong> comparado à Europa, mas teve fases marcantes que moldaram o país.</p>
-                </div>
-                <div class="intro-highlight reveal">
-                    <i class="fas fa-lightbulb" style="font-size:2rem; color:var(--accent-gold); margin-bottom:12px; display:block;"></i>
-                    <p><strong>Curiosidade histórica:</strong> Em 1785, Portugal proibiu fábricas no Brasil. A indústria só deslanchou de verdade com a chegada de D. João VI em 1808, que revogou o alvará e abriu os portos.</p>
-                    <p style="margin-top:16px; font-size:0.9rem; color:#94a3b8;">Enquanto a Inglaterra vivia a 1ª Revolução, o Brasil ainda era colônia e exportava açúcar e café.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<main>
 
-    <!-- ===== 2-3) PASSADO ===== -->
-    <section id="past">
-        <div class="container">
-            <div class="text-center reveal">
-                <span style="color:var(--accent-green); font-weight:700; letter-spacing:1px;">TÓPICOS 2 & 3</span>
-                <h2 class="section-title">A Revolução no Passado</h2>
-                <p class="section-subtitle">Do despertar tímido com D. João VI à consolidação com Vargas e a modernização de JK.</p>
-            </div>
+  <!-- ============ O QUE É ============ -->
+  <section id="oque">
+    <h2>O que é cada coisa</h2>
+    <p class="sub">Ação, bolsa, dinheiro e banco — o básico pra começar.</p>
 
-            <div class="timeline">
-                <!-- Item 1 -->
-                <div class="timeline-item reveal">
-                    <span class="date"><i class="far fa-calendar-alt" style="margin-right:6px;"></i> 1500 – 1930</span>
-                    <h3>Primeiros Passos &amp; Proibição</h3>
-                    <p><strong>Período Colonial:</strong> Portugal proibia manufaturas (Alvará de 1785) para evitar concorrência. A produção se resumia a engenhos de açúcar e atividades artesanais.</p>
-                    <p style="margin-top:8px;"><strong>1808 – A virada:</strong> D. João VI revoga a proibição e abre os portos. Surgem as primeiras fábricas têxteis, alimentícias e de minerais, concentradas no Sudeste.</p>
-                    <ul>
-                        <li>Economia ainda dependente do café.</li>
-                        <li>Indústria incipiente, sem alta tecnologia.</li>
-                    </ul>
-                </div>
+    <p>A <b>bolsa de valores</b> é um mercado organizado onde empresas vendem pedaços de si mesmas para conseguir dinheiro. Esses pedaços são as <b>ações</b>. Quem compra uma ação se torna sócio da empresa — participa dos lucros e também dos prejuízos.</p>
 
-                <!-- Item 2 -->
-                <div class="timeline-item reveal">
-                    <span class="date"><i class="far fa-calendar-alt" style="margin-right:6px;"></i> 1930 – Década de 1990</span>
-                    <h3>Era Vargas, JK e a Crise</h3>
-                    <p><strong>Getúlio Vargas (1930–1956):</strong> O Estado vira indutor da indústria pesada. Políticas protecionistas e substituição de importações. Em 1935, a produção industrial já era 27% maior que em 1929.</p>
-                    <p style="margin-top:8px;"><strong>Juscelino Kubitschek (1956):</strong> “50 anos em 5”. Estímulo à indústria automobilística e abertura ao capital estrangeiro. Crescimento exponencial.</p>
-                    <p style="margin-top:8px;"><strong>Década de 1990:</strong> Neoliberalismo, privatizações e crescimento do setor de serviços. A indústria, que já foi um terço do PIB, cai para cerca de 25,5%.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <p>O <b>dinheiro</b> é o meio de troca oficial de uma economia. Hoje ele é <b>fiduciário</b>: não tem lastro em ouro, vale porque o Estado garante e a sociedade confia. Já o <b>banco</b> é a instituição que capta dinheiro (depósitos) e empresta (crédito), cobrando juros — é o que faz o dinheiro circular.</p>
 
-    <!-- ===== 4) PRESENTE ===== -->
-    <section id="present">
-        <div class="container">
-            <div class="text-center reveal">
-                <span style="color:var(--accent-orange); font-weight:700; letter-spacing:1px;">TÓPICO 4</span>
-                <h2 class="section-title">O Presente da Indústria</h2>
-                <p class="section-subtitle">O Brasil busca se reinserir na Indústria 4.0, enfrentando desafios históricos e novas oportunidades.</p>
-            </div>
+    <div class="definicao">
+      <div class="termo">Ação</div>
+      <p>Menor fração do capital social de uma empresa. Quem tem ação é sócio: ganha quando a empresa lucra (dividendos ou valorização) e perde quando ela vai mal.</p>
+    </div>
 
-            <div class="present-grid">
-                <div class="card reveal">
-                    <div class="icon"><i class="fas fa-microchip"></i></div>
-                    <h4>Indústria 4.0</h4>
-                    <p>Integração de IA, IoT, robótica e computação em nuvem. A transformação digital é a grande aposta para aumentar a eficiência e reduzir custos.</p>
-                </div>
-                <div class="card green reveal">
-                    <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
-                    <h4>Desafios Estruturais</h4>
-                    <p>Perda de competitividade, atraso tecnológico e desconcentração regional ainda travam o avanço. A participação da indústria no PIB segue em queda.</p>
-                </div>
-                <div class="card orange reveal">
-                    <div class="icon"><i class="fas fa-leaf"></i></div>
-                    <h4>Oportunidades &amp; Sustentabilidade</h4>
-                    <p>Destaque em agroindústria, petroquímica e mineração. Cresce a conscientização ecológica e as políticas para minimizar impactos ambientais.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="definicao">
+      <div class="termo">Bolsa de valores</div>
+      <p>Ambiente organizado onde ações, títulos e fundos são negociados. No Brasil é a B3. Nos Estados Unidos, a NYSE e a Nasdaq.</p>
+    </div>
 
-    <!-- ===== 5) FUTURO 2050 (ATUALIZADO) ===== -->
-    <section id="future">
-        <div class="container">
-            <div class="text-center reveal">
-                <span style="color:var(--accent-gold); font-weight:700; letter-spacing:1px;">TÓPICO 5</span>
-                <h2 class="section-title">O que é possível em 2050?</h2>
-                <p class="section-subtitle">Projeções realistas para o Brasil, considerando a transição energética, o envelhecimento populacional, a bioeconomia e os gargalos históricos que precisarão ser superados.</p>
-            </div>
+    <div class="definicao">
+      <div class="termo">Dinheiro</div>
+      <p>Meio de troca oficial de uma economia. Hoje é fiduciário: sem lastro em ouro, vale pela confiança no Estado emissor.</p>
+    </div>
 
-            <div class="future-grid">
-                <!-- Card 1: Energia Verde -->
-                <div class="future-card energy reveal">
-                    <h4><i class="fas fa-wind"></i> Energia Verde & Hidrogênio</h4>
-                    <p>O Brasil se consolidará como um dos maiores produtores e exportadores de <strong>hidrogênio verde (H2V)</strong> do mundo, aproveitando o potencial eólico e solar do Nordeste.</p>
-                    <ul>
-                        <li>Siderurgia e indústria química pesada descarbonizadas com H2V.</li>
-                        <li>Nova cadeia industrial de eletrolisadores e turbinas eólicas offshore.</li>
-                        <li>Matriz elétrica com mais de 90% de fontes renováveis.</li>
-                    </ul>
-                </div>
+    <div class="definicao">
+      <div class="termo">Banco</div>
+      <p>Instituição financeira que capta depósitos e concede crédito, cobrando juros. É o que faz o dinheiro circular na economia.</p>
+    </div>
 
-                <!-- Card 2: Bioeconomia e Agro -->
-                <div class="future-card bio reveal">
-                    <h4><i class="fas fa-seedling"></i> Bioeconomia & Agro 4.0</h4>
-                    <p>O agro deixará de ser apenas commodities e se tornará uma indústria de <strong>bioprodutos</strong> e fármacos, com rastreabilidade total via blockchain.</p>
-                    <ul>
-                        <li>Fazendas totalmente autônomas com tratores elétricos e IA.</li>
-                        <li>Indústria farmacêutica e de cosméticos usando ativos da Amazônia de forma sustentável.</li>
-                        <li>Produção em larga escala de SAF (combustível sustentável de aviação) a partir de biomassa.</li>
-                    </ul>
-                </div>
+    <h3>Mercado primário e mercado secundário</h3>
 
-                <!-- Card 3: Manufatura e Demografia -->
-                <div class="future-card tech reveal">
-                    <h4><i class="fas fa-robot"></i> Manufatura & Choque Demográfico</h4>
-                    <p>Com o envelhecimento acelerado da população (mais idosos que jovens em 2050), a automação deixará de ser luxo e se tornará <strong>necessidade operacional básica</strong>.</p>
-                    <ul>
-                        <li>Fábricas inteligentes integradas por redes 6G e gêmeos digitais.</li>
-                        <li>Robótica colaborativa para suprir a escassez de mão de obra industrial.</li>
-                        <li>Educação técnica voltada massivamente para STEM e IA.</li>
-                    </ul>
-                </div>
+    <p>Existem dois momentos diferentes na negociação de ações:</p>
 
-                <!-- Card 4: Gargalos Estruturais -->
-                <div class="future-card challenge reveal">
-                    <h4><i class="fas fa-triangle-exclamation"></i> Desafios Críticos</h4>
-                    <p>Se não houver investimento maciço, a infraestrutura logística e a desigualdade regional podem travar o avanço.</p>
-                    <ul>
-                        <li>Ferrovias e hidrovias subdimensionadas encarecendo o escoamento.</li>
-                        <li>Conectividade digital insuficiente no Norte e Nordeste, ampliando o abismo regional.</li>
-                        <li>Déficit de engenheiros e técnicos especializados em tecnologias verdes.</li>
-                        <li>Eventos climáticos extremos forçando adaptação urgente das cadeias produtivas.</li>
-                    </ul>
-                </div>
-            </div>
+    <ul class="lista-simples">
+      <li><b>Mercado primário:</b> a empresa vende ações direto ao investidor (é o caso do IPO). O dinheiro vai para a empresa.</li>
+      <li><b>Mercado secundário:</b> investidores negociam entre si. A empresa não recebe nada por essas transações.</li>
+    </ul>
 
-            <!-- Bloco de síntese 2050 -->
-            <div style="margin-top:40px; padding:28px; background:rgba(255,255,255,0.06); border-radius:16px; border:1px solid rgba(255,255,255,0.08); text-align:center; backdrop-filter:blur(4px);">
-                <p style="color:#e2e8f0; font-size:1.1rem; font-weight:300;">
-                    <i class="fas fa-bullseye" style="color:var(--accent-gold); margin-right:12px; font-size:1.4rem;"></i>
-                    Em 2050, o Brasil terá a oportunidade de ser uma <strong style="color:var(--accent-gold);">potência ambiental-industrial</strong>, mas o sucesso dependerá de políticas de longo prazo que comecem agora, especialmente em educação, infraestrutura e inovação.
-                </p>
-            </div>
-        </div>
-    </section>
+    <div class="caixa-analogia">
+      <span class="rotulo">Analogia do macaco</span>
+      <p>Imagina que você é um macaco. Você tem muitas bananas. Outro macaco tem uma árvore de bananas, mas ela é pequena.</p>
+      <p>Ele fala: "Me dá suas bananas agora. Em troca, te dou um pedacinho da minha árvore." Você dá as bananas. Agora é dono de um pedacinho da árvore.</p>
+      <p><b>Ação</b> é o pedaço da árvore. <b>Bolsa</b> é a feira onde os macacos trocam esses pedaços. <b>Dinheiro</b> é a folha verde que vale porque todos acreditam que vale. <b>Banco</b> é o macaco que empresta as folhas dos outros.</p>
+    </div>
+  </section>
 
-    <!-- ===== FOOTER ===== -->
-    <footer>
-        <div class="container">
-            <p style="margin-bottom:8px;">
-                <i class="fas fa-industry"></i> Revolução Industrial no Brasil &bull; Projeções para 2050
-            </p>
-            <p style="font-size:0.85rem; color:#64748b;">
-                Conteúdo histórico e teórico baseado em pesquisas acadêmicas e tendências globais.
-                <i class="fas fa-code" style="margin:0 6px;"></i> Desenvolvido com HTML, CSS &amp; JS.
-            </p>
-        </div>
-    </footer>
+  <div class="divisor">• • •</div>
 
-    <!-- ===== JAVASCRIPT ===== -->
-    <script>
-        // ===== HAMBURGER MENU =====
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
+  <!-- ============ IMPORTÂNCIA ============ -->
+  <section id="importancia">
+    <h2>Por que isso importa</h2>
+    <p class="sub">O papel de cada um na economia moderna.</p>
 
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('open');
-        });
+    <p>Esses quatro elementos não existem por acaso — cada um resolve um problema concreto da sociedade.</p>
 
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('open');
-            });
-        });
+    <ul class="lista-simples">
+      <li><b>Dinheiro:</b> permite a divisão do trabalho e o comércio em larga escala. Sem ele, a economia voltaria ao escambo e à estagnação.</li>
+      <li><b>Bancos:</b> transformam poupança em investimento. Sem crédito, empresas não cresceriam e o consumo seria limitado.</li>
+      <li><b>Bolsa:</b> permite que empresas captem recursos sem depender só de bancos. Também dá liquidez ao investidor e democratiza o acesso ao lucro das empresas.</li>
+      <li><b>Banco Central:</b> controla juros (Selic) e inflação. Isso afeta diretamente o câmbio, o consumo, o emprego e a bolsa.</li>
+    </ul>
 
-        // ===== SCROLL REVEAL (Intersection Observer) =====
-        const reveals = document.querySelectorAll('.reveal');
+    <h3>A conexão entre juros e bolsa</h3>
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, {
-            threshold: 0.15,
-            rootMargin: '0px 0px -30px 0px'
-        });
+    <p>Um dos pontos mais importantes para entender é a relação entre os juros e o mercado de ações:</p>
 
-        reveals.forEach(el => observer.observe(el));
+    <ul class="lista-simples">
+      <li><b>Juros baixos:</b> a renda fixa rende pouco, então os investidores migram para a bolsa. As ações tendem a subir.</li>
+      <li><b>Juros altos:</b> a renda fixa fica atraente, então os investidores saem da bolsa. As ações tendem a cair.</li>
+      <li><b>Inflação alta:</b> o poder de compra cai, o Banco Central sobe os juros e a economia desacelera.</li>
+    </ul>
 
-        window.addEventListener('load', () => {
-            reveals.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight) {
-                    el.classList.add('active');
-                }
-            });
-        });
-    </script>
+    <div class="caixa-alerta">
+      <p><b>Atenção:</b> a bolsa não é cassino. É um mecanismo de canalizar poupança para investimento produtivo. Quem investe bem pensa no longo prazo — não em ganhar dinheiro da noite para o dia.</p>
+    </div>
+  </section>
+
+  <div class="divisor">• • •</div>
+
+  <!-- ============ EXEMPLO ============ -->
+  <section id="exemplo">
+    <h2>Um exemplo prático</h2>
+    <p class="sub">Como isso funciona na vida real, passo a passo.</p>
+
+    <p>Vamos acompanhar o João, um investidor iniciante que decidiu comprar ações de uma empresa:</p>
+
+    <div class="passos">
+      <div class="passo">
+        <span class="txt"><b>João compra 10 ações</b> da empresa X por R$ 20 cada. Total investido: R$ 200.</span>
+      </div>
+      <div class="passo">
+        <span class="txt">A empresa X <b>cresce e dá lucro</b>. Mais gente quer comprar as ações dela.</span>
+      </div>
+      <div class="passo">
+        <span class="txt">A demanda sobe, então o <b>preço da ação sobe para R$ 30</b> cada.</span>
+      </div>
+      <div class="passo">
+        <span class="txt">João vende as 10 ações por R$ 30 cada = R$ 300. <b>Lucro de R$ 100</b>, ou seja, 50% de retorno.</span>
+      </div>
+    </div>
+
+    <p>Parece simples, e é — mas tem outro lado. Se a empresa fosse mal, a ação poderia cair para R$ 10, e o João teria <b>prejuízo de R$ 100</b>. Por isso existe uma regra de ouro: <b>nunca invista tudo em um só lugar</b>.</p>
+
+    <div class="caixa-alerta">
+      <p><b>O outro lado:</b> investir envolve risco. A ação pode subir ou cair. O que protege o investidor é a diversificação — espalhar o dinheiro em várias aplicações diferentes.</p>
+    </div>
+
+    <div class="caixa-analogia">
+      <span class="rotulo">Analogia do macaco</span>
+      <p>É como plantar várias árvores em vez de uma só. Se uma morrer, você ainda tem as outras. Nunca coloque todas as bananas numa árvore só.</p>
+    </div>
+  </section>
+
+  <div class="divisor">• • •</div>
+
+  <!-- ============ ORIGEM ============ -->
+  <section id="origem">
+    <h2>Como tudo começou</h2>
+    <p class="sub">Da troca direta ao mercado global — uma linha do tempo.</p>
+
+    <p>Nada disso surgiu de uma vez. Cada elemento foi criado para resolver um problema da época.</p>
+
+    <div class="tempo">
+      <div class="tempo-item">
+        <span class="quando">Antiguidade</span>
+        <h3>Escambo</h3>
+        <p>As sociedades trocavam bens diretamente. O problema: nem sempre os interesses coincidiam, o que tornava as transações lentas e limitadas.</p>
+      </div>
+      <div class="tempo-item">
+        <span class="quando">Antiguidade</span>
+        <h3>Moeda-mercadoria</h3>
+        <p>Criaram uma mercadoria universal aceita por todos — sal, conchas, metais. Depois vieram as moedas metálicas e o papel-moeda.</p>
+      </div>
+      <div class="tempo-item">
+        <span class="quando">Idade Média</span>
+        <h3>Bancos e crédito</h3>
+        <p>Bancos surgiram guardando ouro e emitindo recibos. Perceberam que podiam emprestar parte do ouro guardado — nasceu o crédito e o multiplicador bancário.</p>
+      </div>
+      <div class="tempo-item">
+        <span class="quando">1602</span>
+        <h3>Primeira bolsa de valores</h3>
+        <p>Criada em Amsterdã, com a Companhia das Índias Orientais. Depois vieram Londres (1773) e Nova York (1792).</p>
+      </div>
+      <div class="tempo-item">
+        <span class="quando">1890</span>
+        <h3>Bolsa no Brasil</h3>
+        <p>A primeira bolsa de valores brasileira surgiu em São Paulo. Hoje é a B3.</p>
+      </div>
+      <div class="tempo-item">
+        <span class="quando">1971</span>
+        <h3>Fim do padrão-ouro</h3>
+        <p>O dinheiro deixou de ter lastro em ouro. Passou a valer apenas pela confiança no Estado emissor — a moeda fiduciária.</p>
+      </div>
+    </div>
+
+    <div class="caixa-analogia">
+      <span class="rotulo">Analogia do macaco</span>
+      <p>Antes, os macacos trocavam banana por pedra, pedra por pau. Uma confusão. Aí um macaco esperto falou: "Vamos combinar: essa folha verde vale 1 banana!" E todos concordaram. Nasceu o <b>dinheiro</b>.</p>
+      <p>Depois, outro macaco percebeu que podia guardar as folhas dos outros e emprestar uma parte. Nasceu o <b>banco</b>.</p>
+      <p>E por fim, um macaco dono de uma árvore grande dividiu ela em pedacinhos e vendeu. Nasceu a <b>bolsa</b>.</p>
+    </div>
+  </section>
+
+  <div class="divisor">• • •</div>
+
+  <!-- ============ RESUMO ============ -->
+  <section id="resumo">
+    <h2>Resumo rápido</h2>
+    <p class="sub">Tudo o que você leu, em poucas linhas.</p>
+
+    <div class="resumo">
+      <h3>Os pontos essenciais</h3>
+      <ul>
+        <li><b>Ação</b> = fração do capital de uma empresa. Quem tem, é sócio.</li>
+        <li><b>Bolsa</b> = mercado organizado onde ações são negociadas (B3, NYSE, Nasdaq).</li>
+        <li><b>Dinheiro</b> = meio de troca fiduciário, sem lastro, baseado em confiança.</li>
+        <li><b>Banco</b> = capta depósitos e concede crédito, criando moeda via multiplicador.</li>
+        <li><b>Juros (Selic)</b> = preço do dinheiro. Afeta inflação, câmbio, consumo e bolsa.</li>
+        <li><b>Bolsa + dinheiro</b> = juntos, conectam poupança a investimento produtivo.</li>
+        <li><b>Origem</b> = escambo, depois moeda, depois bancos, depois bolsas.</li>
+        <li><b>Regra de ouro</b> = diversifique e pense no longo prazo.</li>
+      </ul>
+    </div>
+
+    <p style="text-align:center;font-style:italic;color:var(--muted);margin-top:32px;font-size:1.05rem;">Investir é construir, não apostar.</p>
+  </section>
+
+</main>
+
+<footer>
+  <p>Educação financeira — este conteúdo é informativo e não constitui recomendação de investimento.</p>
+</footer>
+
+<button id="topo" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+  const topo = document.getElementById('topo');
+  window.addEventListener('scroll', () => {
+    topo.style.display = window.scrollY > 400 ? 'flex' : 'none';
+  });
+</script>
 
 </body>
 </html>
